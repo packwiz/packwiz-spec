@@ -1,5 +1,7 @@
 # Pack file specification
-The main modpack file for a packwiz modpack
+The main modpack file for a packwiz modpack.
+This is the first file loaded, to allow the modpack downloader to download all the files in the modpack.
+
 
 ## Example
 ```toml

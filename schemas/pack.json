@@ -1,11 +1,75 @@
 {
-	"$schema": "http://json-schema.org/draft/2019-09/schema",
-	"description": "The main modpack file for a packwiz modpack.",
-	"type": "object",
-	"properties": {
-		"name": {
-			"description": "The name of the modpack",
-			"type": "string"
-		}
-	}
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "HashFormat": {
+            "description": "A hashing format used to detect if a file has changed.",
+            "enum": [
+                "murmur2",
+                "sha256"
+            ],
+            "type": "string"
+        }
+    },
+    "description": "The main modpack file for a packwiz modpack.\nThis is the first file loaded, to allow the modpack downloader to download all the files in the modpack.\n\nExample:\n\n```toml\nname = \"My Modpack\"\n\n[index]\nfile = \"index.toml\"\nhash-format = \"sha256\"\nhash = \"e3d71dc5366997d84cab2d0b748a79bd8c3ad3433557a49dfac6cf2c7292d011\"\n\n[versions]\nforge = \"14.23.5.2838\"\nminecraft = \"1.12.2\"\n```",
+    "properties": {
+        "index": {
+            "description": "Information about the index file in this modpack.",
+            "properties": {
+                "file": {
+                    "type": "string"
+                },
+                "hash": {
+                    "type": "string"
+                },
+                "hash-format": {
+                    "$ref": "#/definitions/HashFormat"
+                }
+            },
+            "required": [
+                "file",
+                "hash",
+                "hash-format"
+            ],
+            "type": "object"
+        },
+        "name": {
+            "description": "The name of the modpack.",
+            "type": "string"
+        },
+        "versions": {
+            "additionalProperties": {
+                "type": "string"
+            },
+            "description": "The versions of components used by this modpack - usually Minecraft and the mod loader this pack uses. The existence of a component implies that it should be installed.",
+            "properties": {
+                "fabric": {
+                    "description": "The version of the Fabric loader used by this modpack, for example `0.7.2+build.174`. The version of Yarn must also be specified for Fabric to be used.",
+                    "type": "string"
+                },
+                "forge": {
+                    "description": "The version of Forge used by this modpack, for example `14.23.5.2838`. This version must not include the Minecraft version as a prefix.",
+                    "type": "string"
+                },
+                "minecraft": {
+                    "description": "The version of Minecraft used by this modpack. This should be in the format used by the version.json files e.g. `1.12.2`, `16w02a` etc.",
+                    "type": "string"
+                },
+                "yarn": {
+                    "description": "The version of the Yarn mappings used by this modpack, for example `1.15.1-pre1+build.1`.",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "minecraft"
+            ],
+            "type": "object"
+        }
+    },
+    "required": [
+        "index",
+        "name",
+        "versions"
+    ],
+    "type": "object"
 }
+
