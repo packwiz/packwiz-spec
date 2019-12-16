@@ -1,4 +1,36 @@
 /**
+ * A hashing format used to detect if a file has changed. You may use your own hash format, but the valid values here should be supported and expected for most packs, especially SHA-256 and Murmur2.
+ */
+type HashFormat = SHA256 | SHA512 | MD5 | Murmur2
+
+/**
+ * The SHA-256 hashing standard. Used by default for metadata files.
+ */
+type SHA256 = "sha256"
+
+/**
+ * The SHA-512 hashing standard.
+ */
+type SHA512 = "sha512"
+
+/**
+ * The MD5 hashing standard.
+ */
+type MD5 = "md5"
+
+/**
+ * The MurmurHash2 32-bit hashing standard (seed 1) with some characters removed before applying the hash (decimal bytes 9, 10, 13, 32), stored as a positive integer.
+ * 
+ * In Java, this is parsed as a long then casted to an int (so the sign bit is part of the value - Java doesn't have unsigned integers).
+ */
+type Murmur2 = "murmur2"
+
+/**
+ * TODO: document this
+ */
+type Path = string
+
+/**
  * The main modpack file for a packwiz modpack.
  * This is the first file loaded, to allow the modpack downloader to download all the files in the modpack.
  * 
@@ -18,21 +50,27 @@
  * ```
  * 
  */
-// TODO: move to a .d.ts file?
 interface Pack {
 	/**
-	 * The name of the modpack.
+	 * The name of the modpack. This can be displayed in user interfaces to identify the pack, and it does not need to be unique between packs.
 	 */
 	name: string
 
 	/**
-	 * Information about the index file in this modpack.
+	 * Information about the [[Index]] file in this modpack.
 	 */
 	index: {
-		// TODO: define properly
-		file: string
+		/**
+		 * The path to the file that contains the index.
+		 */
+		file: Path
+		/**
+		 * The hash format (algorithm) for the hash of the index file.
+		 */
 		"hash-format": HashFormat
-		// TODO: define with alias?
+		/**
+		 * The hash of the index file, as a string. Binary hashes should be stored as hexadecimal, and case should be ignored during parsing. Numeric hashes (e.g. Murmur2) should still be stored as a string, to ensure the value is preserved correctly.
+		 */
 		hash: string
 	}
 
@@ -64,16 +102,40 @@ interface Pack {
 }
 
 /**
- * A hashing format used to detect if a file has changed.
+ * The index file of the modpack, storing references to every file to be downloaded in the pack.
+ * TODO: finish
  */
-type HashFormat = SHA256 | Murmur2
+interface Index {
+	/**
+	 * The default hash format (algorithm) for every file in the index.
+	 */
+	"hash-format": HashFormat
+	/**
+	 * The files listed in this index.
+	 */
+	files: IndexFile[]
+}
 
 /**
- * The SHA-256 hashing standard. Used by default for metadata files.
+ * A single file in the [[Index]], to be downloaded by the modpack installer.
  */
-type SHA256 = "sha256"
+interface IndexFile {
+	/**
+	 * The path to the file to be downloaded.
+	 */
+	file: Path
+	/**
+	 * The hash of the specified file, as a string. Binary hashes should be stored as hexadecimal, and case should be ignored during parsing. Numeric hashes (e.g. Murmur2) should still be stored as a string, to ensure the value is preserved correctly.
+	 */
+	hash: string
+	/**
+	 * The hash format (algorithm) for the hash of the specified file.
+	 */
+	"hash-format": HashFormat
+	
+	alias?: string
 
-/**
- * The MurmurHash2 32-bit hashing standard (seed 1) with some whitespace characters removed, stored as a positive integer.
- */
-type Murmur2 = "murmur2"
+	metafile?: boolean
+
+	preserve?: boolean
+}

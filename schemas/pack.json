@@ -2,10 +2,12 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "definitions": {
         "HashFormat": {
-            "description": "A hashing format used to detect if a file has changed.",
+            "description": "A hashing format used to detect if a file has changed. You may use your own hash format, but the valid values here should be supported and expected for most packs, especially SHA-256 and Murmur2.",
             "enum": [
+                "md5",
                 "murmur2",
-                "sha256"
+                "sha256",
+                "sha512"
             ],
             "type": "string"
         }
@@ -13,16 +15,19 @@
     "description": "The main modpack file for a packwiz modpack.\nThis is the first file loaded, to allow the modpack downloader to download all the files in the modpack.\n\nExample:\n\n```toml\nname = \"My Modpack\"\n\n[index]\nfile = \"index.toml\"\nhash-format = \"sha256\"\nhash = \"e3d71dc5366997d84cab2d0b748a79bd8c3ad3433557a49dfac6cf2c7292d011\"\n\n[versions]\nforge = \"14.23.5.2838\"\nminecraft = \"1.12.2\"\n```",
     "properties": {
         "index": {
-            "description": "Information about the index file in this modpack.",
+            "description": "Information about the [[Index]] file in this modpack.",
             "properties": {
                 "file": {
+                    "description": "The path to the file that contains the index.",
                     "type": "string"
                 },
                 "hash": {
+                    "description": "The hash of the index file, as a string. Binary hashes should be stored as hexadecimal, and case should be ignored during parsing. Numeric hashes (e.g. Murmur2) should still be stored as a string, to ensure the value is preserved correctly.",
                     "type": "string"
                 },
                 "hash-format": {
-                    "$ref": "#/definitions/HashFormat"
+                    "$ref": "#/definitions/HashFormat",
+                    "description": "The hash format (algorithm) for the hash of the index file."
                 }
             },
             "required": [
@@ -33,7 +38,7 @@
             "type": "object"
         },
         "name": {
-            "description": "The name of the modpack.",
+            "description": "The name of the modpack. This can be displayed in user interfaces to identify the pack, and it does not need to be unique between packs.",
             "type": "string"
         },
         "versions": {
