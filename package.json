@@ -1,0 +1,27 @@
+{
+  "name": "packwiz-spec",
+  "version": "0.0.1",
+  "description": "A format for specifying Minecraft modpacks, designed to be easy to manipulate with tools.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "typescript-json-schema typings.d.ts Pack --strictNullChecks -o schemas/pack.json --required && typescript-json-schema typings.d.ts Index --strictNullChecks -o schemas/index.json --required && typedoc --out web/ typings.d.ts --mode file --toc \"Pack,Index\" --includeDeclarations --excludeExternals"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/comp500/packwiz-spec.git"
+  },
+  "keywords": [
+    "packwiz",
+    "minecraft"
+  ],
+  "author": "comp500",
+  "license": "CC0-1.0",
+  "bugs": {
+    "url": "https://github.com/comp500/packwiz-spec/issues"
+  },
+  "homepage": "https://github.com/comp500/packwiz-spec#readme",
+  "devDependencies": {
+    "typedoc": "^0.15.5",
+    "typescript-json-schema": "^0.41.0"
+  }
+}
