@@ -12,13 +12,13 @@
             "type": "string"
         },
         "IndexFile": {
-            "description": "A single file in the [[Index]], to be downloaded by the modpack installer.",
+            "description": "A single file in the [[Index]], to be downloaded by the modpack installer.\nTODO: finish",
             "properties": {
                 "alias": {
                     "type": "string"
                 },
                 "file": {
-                    "description": "The path to the file to be downloaded.",
+                    "description": "The path to the file to be downloaded, relative to this index file.",
                     "type": "string"
                 },
                 "hash": {
@@ -26,8 +26,14 @@
                     "type": "string"
                 },
                 "hash-format": {
-                    "$ref": "#/definitions/HashFormat",
-                    "description": "The hash format (algorithm) for the hash of the specified file."
+                    "description": "The hash format (algorithm) for the hash of the specified file. Defaults to the hash format specified in the index - ideally remove this value if it is equal to the hash format for the index to save space.",
+                    "enum": [
+                        "md5",
+                        "murmur2",
+                        "sha256",
+                        "sha512"
+                    ],
+                    "type": "string"
                 },
                 "metafile": {
                     "type": "boolean"
@@ -38,13 +44,12 @@
             },
             "required": [
                 "file",
-                "hash",
-                "hash-format"
+                "hash"
             ],
             "type": "object"
         }
     },
-    "description": "The index file of the modpack, storing references to every file to be downloaded in the pack.\nTODO: finish",
+    "description": "The index file of the modpack, storing references to every file to be downloaded in the pack.\n\nExample:\n\n```toml\nhash-format = \"sha256\"\n\n[[files]]\nfile = \"mod.toml\"\nhash = \"a82d23948043048cef6208c8cc8bdac1ea42b6f8d6d73074ea0ab9a955f7ddf2\"\nmetafile = true\n```",
     "properties": {
         "files": {
             "description": "The files listed in this index.",

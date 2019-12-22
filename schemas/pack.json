@@ -12,7 +12,7 @@
             "type": "string"
         }
     },
-    "description": "The main modpack file for a packwiz modpack.\nThis is the first file loaded, to allow the modpack downloader to download all the files in the modpack.\n\nExample:\n\n```toml\nname = \"My Modpack\"\n\n[index]\nfile = \"index.toml\"\nhash-format = \"sha256\"\nhash = \"e3d71dc5366997d84cab2d0b748a79bd8c3ad3433557a49dfac6cf2c7292d011\"\n\n[versions]\nforge = \"14.23.5.2838\"\nminecraft = \"1.12.2\"\n```",
+    "description": "The main modpack file for a packwiz modpack.\nThis is the first file loaded, to allow the modpack downloader to download all the files in the modpack.\n\nExample:\n\n```toml\nname = \"My Modpack\"\n\n[index]\nfile = \"index.toml\"\nhash-format = \"sha256\"\nhash = \"e23c098c867dbb45f672cdb407392c7ed1eaa26d21b969ecf64a49d2a937fc0e\"\n\n[versions]\nforge = \"14.23.5.2838\"\nminecraft = \"1.12.2\"\n```",
     "properties": {
         "index": {
             "description": "Information about the [[Index]] file in this modpack.",
@@ -56,7 +56,7 @@
                     "type": "string"
                 },
                 "minecraft": {
-                    "description": "The version of Minecraft used by this modpack. This should be in the format used by the version.json files e.g. `1.12.2`, `16w02a` etc.",
+                    "description": "The version of Minecraft used by this modpack. This should be in the format used by the version.json files e.g. `1.12.2`, `16w02a` etc. This value can be used by tools to determine which versions of mods should be installed.",
                     "type": "string"
                 },
                 "yarn": {
