@@ -4,7 +4,7 @@
   "description": "A format for specifying Minecraft modpacks, designed to be easy to manipulate with tools.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "typescript-json-schema typings.d.ts Pack --strictNullChecks -o schemas/pack.json --required --titles --topRef && typescript-json-schema typings.d.ts Index --strictNullChecks -o schemas/index.json --required --titles --topRef && typescript-json-schema typings.d.ts Mod --strictNullChecks -o schemas/mod.json --required --titles --topRef && typedoc --out web/ typings.d.ts --mode file --toc \"Pack,Index,Mod\" --includeDeclarations --excludeExternals"
+    "build": "typescript-json-schema typings.d.ts Pack --strictNullChecks -o schemas/pack.json --required --titles --topRef --refs && typescript-json-schema typings.d.ts Index --strictNullChecks -o schemas/index.json --required --titles --topRef --refs && typescript-json-schema typings.d.ts Mod --strictNullChecks -o schemas/mod.json --required --titles --topRef --refs && typedoc --out web/ typings.d.ts --mode file --toc \"Pack,Index,Mod\" --includeDeclarations --excludeExternals"
   },
   "repository": {
     "type": "git",
