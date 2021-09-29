@@ -1,107 +1,152 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "definitions": {
-    "CurseforgeUpdate": {
-      "title": "CurseforgeUpdate",
-      "description": "An update value for updating mods downloaded from CurseForge.",
-      "properties": {
-        "file-id": {
-          "description": "An integer representing the unique file ID of this mod file. This can be used if more metadata needs to be obtained relating to the mod.",
-          "type": "number"
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "CurseforgeUpdate": {
+            "description": "An update value for updating mods downloaded from CurseForge.",
+            "properties": {
+                "file-id": {
+                    "description": "An integer representing the unique file ID of this mod file. This can be used if more metadata needs to be obtained relating to the mod.",
+                    "title": "file-id",
+                    "type": "number"
+                },
+                "project-id": {
+                    "description": "An integer representing the unique project ID of this mod. Updating will retrieve the latest file for this project ID that is valid (correct Minecraft version, release channel, modloader, etc.).",
+                    "title": "project-id",
+                    "type": "number"
+                },
+                "release-channel": {
+                    "description": "The latest type of file that should be downloaded for the mod. Files will be downloaded if they have the same or greater stability than this setting - e.g. \"beta\" will download files that are marked as beta *and* those marked as release. The newest file that is valid will be retrieved. Alpha may not work correctly as alpha mods and files are not returned by the API.",
+                    "enum": [
+                        "alpha",
+                        "beta",
+                        "release"
+                    ],
+                    "title": "release-channel",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "file-id",
+                "project-id",
+                "release-channel"
+            ],
+            "title": "CurseforgeUpdate",
+            "type": "object"
         },
-        "project-id": {
-          "description": "An integer representing the unique project ID of this mod. Updating will retrieve the latest file for this project ID that is valid (correct Minecraft version, release channel, modloader, etc.).",
-          "type": "number"
+        "HashFormat": {
+            "description": "A hashing format used to detect if a file has changed. You may use your own hash format, but the valid values here should be supported and expected for most packs, especially SHA-256 and Murmur2.",
+            "enum": [
+                "md5",
+                "murmur2",
+                "sha256",
+                "sha512"
+            ],
+            "title": "HashFormat",
+            "type": "string"
         },
-        "release-channel": {
-          "description": "The latest type of file that should be downloaded for the mod. Files will be downloaded if they have the same or greater stability than this setting - e.g. \"beta\" will download files that are marked as beta *and* those marked as release. The newest file that is valid will be retrieved. Alpha may not work correctly as alpha mods and files are not returned by the API.",
-          "enum": ["alpha", "beta", "release"],
-          "type": "string"
+        "UpdateImplementation": {
+            "description": "This interface defines no properties - it exists solely to restrict the possible update values to those that are intended as update implementations.",
+            "title": "UpdateImplementation",
+            "type": "object"
         }
-      },
-      "required": ["file-id", "project-id", "release-channel"],
-      "type": "object"
     },
-    "HashFormat": {
-      "title": "HashFormat",
-      "description": "A hashing format used to detect if a file has changed. You may use your own hash format, but the valid values here should be supported and expected for most packs, especially SHA-256 and Murmur2.",
-      "enum": ["md5", "murmur2", "sha256", "sha512"],
-      "type": "string"
-    },
-    "UpdateImplementation": {
-      "title": "UpdateImplementation",
-      "description": "This interface defines no properties - it exists solely to restrict the possible update values to those that are intended as update implementations.",
-      "type": "object"
-    }
-  },
-  "title": "mod.toml",
-  "description": "A uhhh mod TODO\n\nExample:\n\n```toml\nname = \"Demagnetize\"\nfilename = \"demagnetize-1.12.2-1.1.1.jar\"\nside = \"both\"\n\n[download]\nurl = \"https://edge.forgecdn.net/files/2834/566/demagnetize-1.12.2-1.1.1.jar\"\nhash-format = \"murmur2\"\nhash = \"2953308073\"\n\n[update]\n[update.curseforge]\nfile-id = 2834566\nproject-id = 301356\nrelease-channel = \"beta\"\n```",
-  "properties": {
-    "download": {
-      "description": "Information about how to download this mod.",
-      "properties": {
-        "hash": {
-          "description": "The hash of the specified file, as a string. Binary hashes should be stored as hexadecimal, and case should be ignored during parsing. Numeric hashes (e.g. Murmur2) should still be stored as a string, to ensure the value is preserved correctly.",
-          "type": "string"
+    "description": "A uhhh mod TODO\n\nExample:\n\n```toml\nname = \"Demagnetize\"\nfilename = \"demagnetize-1.12.2-1.1.1.jar\"\nside = \"both\"\n\n[download]\nurl = \"https://edge.forgecdn.net/files/2834/566/demagnetize-1.12.2-1.1.1.jar\"\nhash-format = \"murmur2\"\nhash = \"2953308073\"\n\n[update]\n[update.curseforge]\nfile-id = 2834566\nproject-id = 301356\nrelease-channel = \"beta\"\n```",
+    "properties": {
+        "download": {
+            "description": "Information about how to download this mod.",
+            "properties": {
+                "hash": {
+                    "description": "The hash of the specified file, as a string. Binary hashes should be stored as hexadecimal, and case should be ignored during parsing. Numeric hashes (e.g. Murmur2) should still be stored as a string, to ensure the value is preserved correctly.",
+                    "title": "hash",
+                    "type": "string"
+                },
+                "hash-format": {
+                    "$ref": "#/definitions/HashFormat",
+                    "description": "The hash format (algorithm) for the hash of the specified file.",
+                    "title": "hash-format"
+                },
+                "url": {
+                    "description": "The URL to download the mod from.",
+                    "title": "url",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "hash",
+                "hash-format",
+                "url"
+            ],
+            "title": "download",
+            "type": "object"
         },
-        "hash-format": {
-          "$ref": "#/definitions/HashFormat",
-          "description": "The hash format (algorithm) for the hash of the specified file."
+        "filename": {
+            "description": "The destination path of the mod file, relative to this file.",
+            "title": "filename",
+            "type": "string"
         },
-        "url": {
-          "description": "The URL to download the mod from.",
-          "type": "string"
+        "name": {
+            "description": "The name of the mod, which can be displayed in user interfaces to identify the mod. It does not need to be unique between mods, although this may cause confusion.",
+            "title": "name",
+            "type": "string"
+        },
+        "option": {
+            "description": "Information about the optional state of this mod. When excluded, this indicates that the mod is not optional.",
+            "properties": {
+                "default": {
+                    "description": "If true, the mod will be enabled by default. If false, the mod will be disabled by default. If a pack format does not support optional mods but it does support disabling mods, the mod will be disabled if it defaults to being disabled.",
+                    "title": "default",
+                    "type": "boolean"
+                },
+                "description": {
+                    "description": "A description displayed to the user when they select optional mods. This should explain why or why not the user should enable the mod.",
+                    "title": "description",
+                    "type": "string"
+                },
+                "optional": {
+                    "description": "Whether or not the mod is optional. This can be set to false if you want to keep the description but make the mod required.",
+                    "title": "optional",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "default",
+                "description",
+                "optional"
+            ],
+            "title": "option",
+            "type": "object"
+        },
+        "side": {
+            "description": "The side on which this mod should be installed. Defaults to \"both\".",
+            "enum": [
+                "both",
+                "client",
+                "server"
+            ],
+            "title": "side",
+            "type": "string"
+        },
+        "update": {
+            "additionalProperties": {
+                "$ref": "#/definitions/UpdateImplementation"
+            },
+            "description": "Information about how to update the download details of this mod with tools. The information stored is specific to the update interface (see implementations of [[UpdateImplementation]]).\n\nIf this value does not exist or there are no defined update values, the mod will not be automatically updated.\n\nIf there are multiple defined update values, one of them will be chosen. The value that is chosen is not defined, so it is therefore dependant on the implementation of the tool (may not be deterministic, so do not rely on one value being chosen over another).",
+            "properties": {
+                "curseforge": {
+                    "$ref": "#/definitions/CurseforgeUpdate",
+                    "description": "An update value for updating mods downloaded from CurseForge.",
+                    "title": "curseforge"
+                }
+            },
+            "title": "update",
+            "type": "object"
         }
-      },
-      "required": ["hash", "hash-format", "url"],
-      "type": "object"
     },
-    "filename": {
-      "description": "The destination path of the mod file, relative to this file.",
-      "type": "string"
-    },
-    "name": {
-      "description": "The name of the mod, which can be displayed in user interfaces to identify the mod. It does not need to be unique between mods, although this may cause confusion.",
-      "type": "string"
-    },
-    "option": {
-      "description": "Information about the optional state of this mod. When excluded, this indicates that the mod is not optional.",
-      "properties": {
-        "default": {
-          "description": "If true, the mod will be enabled by default. If false, the mod will be disabled by default. If a pack format does not support optional mods but it does support disabling mods, the mod will be disabled if it defaults to being disabled.",
-          "type": "boolean"
-        },
-        "description": {
-          "description": "A description displayed to the user when they select optional mods. This should explain why or why not the user should enable the mod.",
-          "type": "string"
-        },
-        "optional": {
-          "description": "Whether or not the mod is optional. This can be set to false if you want to keep the description but make the mod required.",
-          "type": "boolean"
-        }
-      },
-      "required": ["default", "description", "optional"],
-      "type": "object"
-    },
-    "side": {
-      "description": "The side on which this mod should be installed. Defaults to \"both\".",
-      "enum": ["both", "client", "server"],
-      "type": "string"
-    },
-    "update": {
-      "additionalProperties": {
-        "$ref": "#/definitions/UpdateImplementation"
-      },
-      "description": "Information about how to update the download details of this mod with tools. The information stored is specific to the update interface (see implementations of [[UpdateImplementation]]).\n\nIf this value does not exist or there are no defined update values, the mod will not be automatically updated.\n\nIf there are multiple defined update values, one of them will be chosen. The value that is chosen is not defined, so it is therefore dependant on the implementation of the tool (may not be deterministic, so do not rely on one value being chosen over another).",
-      "properties": {
-        "curseforge": {
-          "$ref": "#/definitions/CurseforgeUpdate",
-          "description": "An update value for updating mods downloaded from CurseForge."
-        }
-      },
-      "type": "object"
-    }
-  },
-  "required": ["download", "filename", "name"],
-  "type": "object"
+    "required": [
+        "download",
+        "filename",
+        "name"
+    ],
+    "type": "object"
 }
+
