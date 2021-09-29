@@ -1,72 +1,58 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "definitions": {
-        "HashFormat": {
-            "description": "A hashing format used to detect if a file has changed. You may use your own hash format, but the valid values here should be supported and expected for most packs, especially SHA-256 and Murmur2.",
-            "enum": [
-                "md5",
-                "murmur2",
-                "sha256",
-                "sha512"
-            ],
-            "type": "string"
-        },
-        "IndexFile": {
-            "description": "A single file in the [[Index]], to be downloaded by the modpack installer.\nTODO: finish",
-            "properties": {
-                "alias": {
-                    "type": "string"
-                },
-                "file": {
-                    "description": "The path to the file to be downloaded, relative to this index file.",
-                    "type": "string"
-                },
-                "hash": {
-                    "description": "The hash of the specified file, as a string. Binary hashes should be stored as hexadecimal, and case should be ignored during parsing. Numeric hashes (e.g. Murmur2) should still be stored as a string, to ensure the value is preserved correctly.",
-                    "type": "string"
-                },
-                "hash-format": {
-                    "description": "The hash format (algorithm) for the hash of the specified file. Defaults to the hash format specified in the index - ideally remove this value if it is equal to the hash format for the index to save space.",
-                    "enum": [
-                        "md5",
-                        "murmur2",
-                        "sha256",
-                        "sha512"
-                    ],
-                    "type": "string"
-                },
-                "metafile": {
-                    "type": "boolean"
-                },
-                "preserve": {
-                    "type": "boolean"
-                }
-            },
-            "required": [
-                "file",
-                "hash"
-            ],
-            "type": "object"
-        }
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "HashFormat": {
+      "title": "HashFormat",
+      "description": "A hashing format used to detect if a file has changed. You may use your own hash format, but the valid values here should be supported and expected for most packs, especially SHA-256 and Murmur2.",
+      "enum": ["md5", "murmur2", "sha256", "sha512"],
+      "type": "string"
     },
-    "description": "The index file of the modpack, storing references to every file to be downloaded in the pack.\n\nExample:\n\n```toml\nhash-format = \"sha256\"\n\n[[files]]\nfile = \"mod.toml\"\nhash = \"a82d23948043048cef6208c8cc8bdac1ea42b6f8d6d73074ea0ab9a955f7ddf2\"\nmetafile = true\n```",
-    "properties": {
-        "files": {
-            "description": "The files listed in this index.",
-            "items": {
-                "$ref": "#/definitions/IndexFile"
-            },
-            "type": "array"
+    "IndexFile": {
+      "title": "IndexFile",
+      "description": "A single file in the [[Index]], to be downloaded by the modpack installer.\nTODO: finish",
+      "properties": {
+        "alias": {
+          "type": "string"
+        },
+        "file": {
+          "description": "The path to the file to be downloaded, relative to this index file.",
+          "type": "string"
+        },
+        "hash": {
+          "description": "The hash of the specified file, as a string. Binary hashes should be stored as hexadecimal, and case should be ignored during parsing. Numeric hashes (e.g. Murmur2) should still be stored as a string, to ensure the value is preserved correctly.",
+          "type": "string"
         },
         "hash-format": {
-            "$ref": "#/definitions/HashFormat",
-            "description": "The default hash format (algorithm) for every file in the index."
+          "description": "The hash format (algorithm) for the hash of the specified file. Defaults to the hash format specified in the index - ideally remove this value if it is equal to the hash format for the index to save space.",
+          "enum": ["md5", "murmur2", "sha256", "sha512"],
+          "type": "string"
+        },
+        "metafile": {
+          "type": "boolean"
+        },
+        "preserve": {
+          "type": "boolean"
         }
+      },
+      "required": ["file", "hash"],
+      "type": "object"
+    }
+  },
+  "title": "index.toml",
+  "description": "The index file of the modpack, storing references to every file to be downloaded in the pack.\n\nExample:\n\n```toml\nhash-format = \"sha256\"\n\n[[files]]\nfile = \"mod.toml\"\nhash = \"a82d23948043048cef6208c8cc8bdac1ea42b6f8d6d73074ea0ab9a955f7ddf2\"\nmetafile = true\n```",
+  "properties": {
+    "files": {
+      "description": "The files listed in this index.",
+      "items": {
+        "$ref": "#/definitions/IndexFile"
+      },
+      "type": "array"
     },
-    "required": [
-        "files",
-        "hash-format"
-    ],
-    "type": "object"
+    "hash-format": {
+      "$ref": "#/definitions/HashFormat",
+      "description": "The default hash format (algorithm) for every file in the index."
+    }
+  },
+  "required": ["files", "hash-format"],
+  "type": "object"
 }
-
