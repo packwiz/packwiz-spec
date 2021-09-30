@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/comp500/packwiz-spec#readme",
   "devDependencies": {
-    "typedoc": "^0.15.5",
+    "typedoc": "^0.22.4",
     "typescript-json-schema": "^0.41.0"
   }
 }
