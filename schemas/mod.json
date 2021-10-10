@@ -52,7 +52,7 @@
             "type": "object"
         }
     },
-    "description": "A uhhh mod TODO\n\nExample:\n\n```toml\nname = \"Demagnetize\"\nfilename = \"demagnetize-1.12.2-1.1.1.jar\"\nside = \"both\"\n\n[download]\nurl = \"https://edge.forgecdn.net/files/2834/566/demagnetize-1.12.2-1.1.1.jar\"\nhash-format = \"murmur2\"\nhash = \"2953308073\"\n\n[update]\n[update.curseforge]\nfile-id = 2834566\nproject-id = 301356\nrelease-channel = \"beta\"\n```",
+    "description": "A metadata file which references an external file from a URL. This allows for side-only mods, optional mods and stores metadata to allow finding updates from Modrinth and CurseForge. The \"mod\" terminology is used a lot here, but this should work for any file.\n\nExample:\n\n```toml\nname = \"Demagnetize\"\nfilename = \"demagnetize-1.12.2-1.1.1.jar\"\nside = \"both\"\n\n[download]\nurl = \"https://edge.forgecdn.net/files/2834/566/demagnetize-1.12.2-1.1.1.jar\"\nhash-format = \"murmur2\"\nhash = \"2953308073\"\n\n[update]\n[update.curseforge]\nfile-id = 2834566\nproject-id = 301356\nrelease-channel = \"beta\"\n```",
     "properties": {
         "download": {
             "description": "Information about how to download this mod.",
@@ -121,7 +121,7 @@
             "additionalProperties": {
                 "$ref": "#/definitions/UpdateImplementation"
             },
-            "description": "Information about how to update the download details of this mod with tools. The information stored is specific to the update interface (see implementations of [[UpdateImplementation]]).\n\nIf this value does not exist or there are no defined update values, the mod will not be automatically updated.\n\nIf there are multiple defined update values, one of them will be chosen. The value that is chosen is not defined, so it is therefore dependant on the implementation of the tool (may not be deterministic, so do not rely on one value being chosen over another).",
+            "description": "Information about how to update the download details of this mod with tools. The information stored is specific to the update interface.\n\nIf this value does not exist or there are no defined update values, the mod will not be automatically updated.\n\nIf there are multiple defined update values, one of them will be chosen. The value that is chosen is not defined, so it is therefore dependant on the implementation of the tool (may not be deterministic, so do not rely on one value being chosen over another).",
             "properties": {
                 "curseforge": {
                     "$ref": "#/definitions/CurseforgeUpdate",
