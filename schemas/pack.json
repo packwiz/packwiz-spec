@@ -14,8 +14,12 @@
     },
     "description": "The main modpack file for a packwiz modpack.\nThis is the first file loaded, to allow the modpack downloader to download all the files in the modpack.\n\nExample:\n\n```toml\nname = \"My Modpack\"\n\n[index]\nfile = \"index.toml\"\nhash-format = \"sha256\"\nhash = \"e23c098c867dbb45f672cdb407392c7ed1eaa26d21b969ecf64a49d2a937fc0e\"\n\n[versions]\nforge = \"14.23.5.2838\"\nminecraft = \"1.12.2\"\n```",
     "properties": {
+        "author": {
+            "description": "The author(s) of the modpack. This is output when exporting to the CurseForge pack format, and can be displayed in user interfaces.",
+            "type": "string"
+        },
         "index": {
-            "description": "Information about the [[Index]] file in this modpack.",
+            "description": "Information about the index file in this modpack.",
             "properties": {
                 "file": {
                     "description": "The path to the file that contains the index.",
@@ -41,6 +45,10 @@
             "description": "The name of the modpack. This can be displayed in user interfaces to identify the pack, and it does not need to be unique between packs.",
             "type": "string"
         },
+        "version": {
+            "description": "The version of the modpack. This is output when exporting to the CurseForge pack format, but is not currently used elsewhere by the tools or installer. It must not be used for determining if the modpack is outdated.",
+            "type": "string"
+        },
         "versions": {
             "additionalProperties": {
                 "type": "string"
@@ -48,19 +56,19 @@
             "description": "The versions of components used by this modpack - usually Minecraft and the mod loader this pack uses. The existence of a component implies that it should be installed.",
             "properties": {
                 "fabric": {
-                    "description": "The version of the Fabric loader used by this modpack, for example `0.7.2+build.174`. The version of Yarn must also be specified for Fabric to be used.",
+                    "description": "The version of the Fabric loader used by this modpack, for example `0.12.1`.",
                     "type": "string"
                 },
                 "forge": {
                     "description": "The version of Forge used by this modpack, for example `14.23.5.2838`. This version must not include the Minecraft version as a prefix.",
                     "type": "string"
                 },
-                "minecraft": {
-                    "description": "The version of Minecraft used by this modpack. This should be in the format used by the version.json files e.g. `1.12.2`, `16w02a` etc. This value can be used by tools to determine which versions of mods should be installed.",
+                "liteloader": {
+                    "description": "The version of Liteloader used by this modpack, for example `1.12.2-SNAPSHOT`.",
                     "type": "string"
                 },
-                "yarn": {
-                    "description": "The version of the Yarn mappings used by this modpack, for example `1.15.1-pre1+build.1`.",
+                "minecraft": {
+                    "description": "The version of Minecraft used by this modpack. This should be in the format used by the version.json files e.g. `1.17.1`, `16w02a` etc. This value can be used by tools to determine which versions of mods should be installed.",
                     "type": "string"
                 }
             },

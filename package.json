@@ -19,7 +19,7 @@
   "bugs": {
     "url": "https://github.com/comp500/packwiz-spec/issues"
   },
-  "homepage": "https://github.com/comp500/packwiz-spec#readme",
+  "homepage": "https://packwiz.infra.link/",
   "devDependencies": {
     "typescript-json-schema": "^0.51.0"
   }

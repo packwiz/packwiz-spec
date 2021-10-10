@@ -12,9 +12,10 @@
             "type": "string"
         },
         "IndexFile": {
-            "description": "A single file in the [[Index]], to be downloaded by the modpack installer.\nTODO: finish",
+            "description": "A single file in the index, to be downloaded by the modpack installer.",
             "properties": {
                 "alias": {
+                    "description": "The name with which this file should be downloaded, instead of the filename specified in the path. Not compatible with metafile, and may not be very well supported.",
                     "type": "string"
                 },
                 "file": {
@@ -36,9 +37,11 @@
                     "type": "string"
                 },
                 "metafile": {
+                    "description": "True when this entry points to a .toml metadata file, which references a file outside the pack. Defaults to false when omitted.",
                     "type": "boolean"
                 },
                 "preserve": {
+                    "description": "When this is set to true, the file is not overwritten if it already exists, to preserve changes made by a user. Defaults to false when omitted.",
                     "type": "boolean"
                 }
             },

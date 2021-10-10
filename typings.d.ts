@@ -57,7 +57,17 @@ interface Pack {
 	name: string
 
 	/**
-	 * Information about the [[Index]] file in this modpack.
+	 * The author(s) of the modpack. This is output when exporting to the CurseForge pack format, and can be displayed in user interfaces.
+	 */
+	author?: string
+
+	/**
+	 * The version of the modpack. This is output when exporting to the CurseForge pack format, but is not currently used elsewhere by the tools or installer. It must not be used for determining if the modpack is outdated.
+	 */
+	version?: string
+
+	/**
+	 * Information about the index file in this modpack.
 	 */
 	index: {
 		/**
@@ -79,7 +89,7 @@ interface Pack {
 	 */
 	versions: {
 		/**
-		 * The version of Minecraft used by this modpack. This should be in the format used by the version.json files e.g. `1.12.2`, `16w02a` etc. This value can be used by tools to determine which versions of mods should be installed.
+		 * The version of Minecraft used by this modpack. This should be in the format used by the version.json files e.g. `1.17.1`, `16w02a` etc. This value can be used by tools to determine which versions of mods should be installed.
 		 */
 		minecraft: string
 		/**
@@ -87,18 +97,20 @@ interface Pack {
 		 */
 		forge?: string
 		/**
-		 * The version of the Fabric loader used by this modpack, for example `0.7.2+build.174`. The version of Yarn must also be specified for Fabric to be used.
+		 * The version of the Fabric loader used by this modpack, for example `0.12.1`.
 		 */
 		fabric?: string
 		/**
-		 * The version of the Yarn mappings used by this modpack, for example `1.15.1-pre1+build.1`.
+		 * The version of Liteloader used by this modpack, for example `1.12.2-SNAPSHOT`.
 		 */
-		yarn?: string
+		liteloader?: string
 		/**
 		 * This field theoretically supports other components - and you are free to implement them yourself - but adding documentation here would be preferable.
 		*/
 		[component: string]: string | undefined
 	}
+
+	// TODO: client, server, export, options
 }
 
 // TODO: fix [[files]] somehow?
@@ -129,8 +141,7 @@ interface Index {
 }
 
 /**
- * A single file in the [[Index]], to be downloaded by the modpack installer.
- * TODO: finish
+ * A single file in the index, to be downloaded by the modpack installer.
  */
 interface IndexFile {
 	/**
@@ -145,11 +156,17 @@ interface IndexFile {
 	 * The hash format (algorithm) for the hash of the specified file. Defaults to the hash format specified in the index - ideally remove this value if it is equal to the hash format for the index to save space.
 	 */
 	"hash-format"?: HashFormat
-	
+	/**
+	 * The name with which this file should be downloaded, instead of the filename specified in the path. Not compatible with metafile, and may not be very well supported.
+	 */
 	alias?: string
-
+	/**
+	 * True when this entry points to a .toml metadata file, which references a file outside the pack. Defaults to false when omitted.
+	 */
 	metafile?: boolean
-
+	/**
+	 * When this is set to true, the file is not overwritten if it already exists, to preserve changes made by a user. Defaults to false when omitted.
+	 */
 	preserve?: boolean
 }
 
@@ -246,6 +263,7 @@ interface Mod {
 	 */
 	update?: {
 		curseforge?: CurseforgeUpdate
+		modrinth?: ModrinthUpdate
 		/**
 		 * This field theoretically supports other update implementations - and you are free to implement them yourself - but adding documentation here would be preferable.
 		*/
@@ -270,8 +288,18 @@ interface CurseforgeUpdate extends UpdateImplementation {
 	 * An integer representing the unique file ID of this mod file. This can be used if more metadata needs to be obtained relating to the mod.
 	 */
 	"file-id": number
+}
+
+/**
+ * An update value for updating mods downloaded from Modrinth.
+ */
+ interface ModrinthUpdate extends UpdateImplementation {
 	/**
-	 * The latest type of file that should be downloaded for the mod. Files will be downloaded if they have the same or greater stability than this setting - e.g. "beta" will download files that are marked as beta *and* those marked as release. The newest file that is valid will be retrieved. Alpha may not work correctly as alpha mods and files are not returned by the API.
+	 * A string representing the unique mod ID of this mod. Updating will retrieve the latest file for this project ID that is valid (correct Minecraft version, release channel, modloader, etc.).
 	 */
-	"release-channel": "release" | "beta" | "alpha"
+	"mod-id": string
+	/**
+	 * A string representing the unique version ID of this file. This can be used if more metadata needs to be obtained relating to the mod.
+	 */
+	"version": string
 }
