@@ -185,7 +185,7 @@ type RFC2396URL = string
 // TODO: change semantics to not be specific to mods?
 
 /**
- * A uhhh mod TODO
+ * A metadata file which references an external file from a URL. This allows for side-only mods, optional mods and stores metadata to allow finding updates from Modrinth and CurseForge. The "mod" terminology is used a lot here, but this should work for any file.
  * 
  * Example:
  * 
@@ -255,7 +255,7 @@ interface Mod {
 		default: boolean
 	}
 	/**
-	 * Information about how to update the download details of this mod with tools. The information stored is specific to the update interface (see implementations of [[UpdateImplementation]]).
+	 * Information about how to update the download details of this mod with tools. The information stored is specific to the update interface.
 	 * 
 	 * If this value does not exist or there are no defined update values, the mod will not be automatically updated.
 	 * 
