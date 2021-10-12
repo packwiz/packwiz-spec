@@ -26,7 +26,7 @@ type MD5 = "md5"
 type Murmur2 = "murmur2"
 
 /**
- * TODO: document this
+ * A relative path using forward slashes. Must not reference a file outside the pack root, and should not include characters or filenames restricted on common operating systems.
  */
 type Path = string
 
@@ -110,10 +110,8 @@ interface Pack {
 		[component: string]: string | undefined
 	}
 
-	// TODO: client, server, export, options
+	// TODO: export, options
 }
-
-// TODO: fix [[files]] somehow?
 
 /**
  * The index file of the modpack, storing references to every file to be downloaded in the pack.
@@ -175,14 +173,10 @@ interface IndexFile {
  */
 type Side = "client" | "server" | "both"
 
-// TODO: make the type of URL dependant on the url type?
-
 /**
  * A URI reference compliant to RFC 2396; specifically RFC 2396 amended by RFC 2732 for IPv6 support. This ensures compatibility with older URI parsers that do not support RFC 3986 - if your URI implementation complies with RFC 3986 make sure that it correctly encodes [ and ] to %5B and %5D respectively.
  */
 type RFC2396URL = string
-
-// TODO: change semantics to not be specific to mods?
 
 /**
  * A metadata file which references an external file from a URL. This allows for side-only mods, optional mods and stores metadata to allow finding updates from Modrinth and CurseForge. The "mod" terminology is used a lot here, but this should work for any file.
