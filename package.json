@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/comp500/packwiz-spec.git"
+    "url": "git+https://github.com/packwiz/packwiz-spec.git"
   },
   "keywords": [
     "packwiz",
@@ -17,7 +17,7 @@
   "author": "comp500",
   "license": "CC0-1.0",
   "bugs": {
-    "url": "https://github.com/comp500/packwiz-spec/issues"
+    "url": "https://github.com/packwiz/packwiz-spec/issues"
   },
   "homepage": "https://packwiz.infra.link/",
   "devDependencies": {
