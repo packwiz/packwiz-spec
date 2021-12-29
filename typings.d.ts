@@ -67,6 +67,11 @@ interface Pack {
 	version?: string
 
 	/**
+	 * A short description of the modpack. This is output when exporting to the Modrinth pack format, but is not currently used elsewhere by the tools or installer.
+	 */
+	description?: string
+
+	/**
 	 * Information about the index file in this modpack.
 	 */
 	index: {

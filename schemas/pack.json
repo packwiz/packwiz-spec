@@ -18,6 +18,10 @@
             "description": "The author(s) of the modpack. This is output when exporting to the CurseForge pack format, and can be displayed in user interfaces.",
             "type": "string"
         },
+        "description": {
+            "description": "A short description of the modpack. This is output when exporting to the Modrinth pack format, but is not currently used elsewhere by the tools or installer.",
+            "type": "string"
+        },
         "index": {
             "description": "Information about the index file in this modpack.",
             "properties": {
