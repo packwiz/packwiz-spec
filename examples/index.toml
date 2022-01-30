@@ -1,6 +1,0 @@
-hash-format = "sha256"
-
-[[files]]
-file = "mod.toml"
-hash = "a82d23948043048cef6208c8cc8bdac1ea42b6f8d6d73074ea0ab9a955f7ddf2"
-metafile = true
