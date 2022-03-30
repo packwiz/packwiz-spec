@@ -11,6 +11,10 @@
                 "sha512"
             ],
             "type": "string"
+        },
+        "Path": {
+            "description": "A relative path using forward slashes. Must not reference a file outside the pack root, and should not include characters or filenames restricted on common operating systems.",
+            "type": "string"
         }
     },
     "description": "The main modpack file for a packwiz modpack.\nThis is the first file loaded, to allow the modpack downloader to download all the files in the modpack.\n\nExample:\n\n```toml\nname = \"My Modpack\"\npack-format = \"packwiz:1.0.0\"\n\n[index]\nfile = \"index.toml\"\nhash-format = \"sha256\"\nhash = \"e23c098c867dbb45f672cdb407392c7ed1eaa26d21b969ecf64a49d2a937fc0e\"\n\n[versions]\nforge = \"14.23.5.2838\"\nminecraft = \"1.12.2\"\n```",
@@ -27,8 +31,8 @@
             "description": "Information about the index file in this modpack.",
             "properties": {
                 "file": {
-                    "description": "The path to the file that contains the index.",
-                    "type": "string"
+                    "$ref": "#/definitions/Path",
+                    "description": "The path to the file that contains the index."
                 },
                 "hash": {
                     "description": "The hash of the index file, as a string. Binary hashes should be stored as hexadecimal, and case should be ignored during parsing. Numeric hashes (e.g. Murmur2) should still be stored as a string, to ensure the value is preserved correctly.",
