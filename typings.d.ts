@@ -157,9 +157,9 @@ interface Index {
 	 */
 	"hash-format": HashFormat
 	/**
-	 * The files listed in this index.
+	 * The files listed in this index. If it is not defined, defaults to an empty list.
 	 */
-	files: IndexFile[]
+	files?: IndexFile[]
 }
 
 /**
@@ -266,11 +266,11 @@ interface Mod {
 		/**
 		 * A description displayed to the user when they select optional mods. This should explain why or why not the user should enable the mod.
 		 */
-		description: string
+		description?: string
 		/**
-		 * If true, the mod will be enabled by default. If false, the mod will be disabled by default. If a pack format does not support optional mods but it does support disabling mods, the mod will be disabled if it defaults to being disabled.
+		 * If true, the mod will be enabled by default. If false, the mod will be disabled by default. If omitted, will behave as if false was set. If a pack format does not support optional mods but it does support disabling mods, the mod will be disabled if it defaults to being disabled.
 		 */
-		default: boolean
+		default?: boolean
 	}
 	/**
 	 * Information about how to update the download details of this mod with tools. The information stored is specific to the update interface.
