@@ -90,7 +90,7 @@
             "description": "Information about the optional state of this mod. When excluded, this indicates that the mod is not optional.",
             "properties": {
                 "default": {
-                    "description": "If true, the mod will be enabled by default. If false, the mod will be disabled by default. If a pack format does not support optional mods but it does support disabling mods, the mod will be disabled if it defaults to being disabled.",
+                    "description": "If true, the mod will be enabled by default. If false, the mod will be disabled by default. If omitted, will behave as if false was set. If a pack format does not support optional mods but it does support disabling mods, the mod will be disabled if it defaults to being disabled.",
                     "type": "boolean"
                 },
                 "description": {
@@ -103,8 +103,6 @@
                 }
             },
             "required": [
-                "default",
-                "description",
                 "optional"
             ],
             "type": "object"

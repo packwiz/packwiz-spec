@@ -57,7 +57,7 @@
     "description": "The index file of the modpack, storing references to every file to be downloaded in the pack.\n\nExample:\n\n```toml\nhash-format = \"sha256\"\n\n[[files]]\nfile = \"mod.toml\"\nhash = \"a82d23948043048cef6208c8cc8bdac1ea42b6f8d6d73074ea0ab9a955f7ddf2\"\nmetafile = true\n```",
     "properties": {
         "files": {
-            "description": "The files listed in this index.",
+            "description": "The files listed in this index. If it is not defined, defaults to an empty list.",
             "items": {
                 "$ref": "#/definitions/IndexFile"
             },
@@ -69,7 +69,6 @@
         }
     },
     "required": [
-        "files",
         "hash-format"
     ],
     "type": "object"
