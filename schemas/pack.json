@@ -6,13 +6,14 @@
             "enum": [
                 "md5",
                 "murmur2",
+                "sha1",
                 "sha256",
                 "sha512"
             ],
             "type": "string"
         }
     },
-    "description": "The main modpack file for a packwiz modpack.\nThis is the first file loaded, to allow the modpack downloader to download all the files in the modpack.\n\nExample:\n\n```toml\nname = \"My Modpack\"\n\n[index]\nfile = \"index.toml\"\nhash-format = \"sha256\"\nhash = \"e23c098c867dbb45f672cdb407392c7ed1eaa26d21b969ecf64a49d2a937fc0e\"\n\n[versions]\nforge = \"14.23.5.2838\"\nminecraft = \"1.12.2\"\n```",
+    "description": "The main modpack file for a packwiz modpack.\nThis is the first file loaded, to allow the modpack downloader to download all the files in the modpack.\n\nExample:\n\n```toml\nname = \"My Modpack\"\npack-format = \"packwiz:1.0.0\"\n\n[index]\nfile = \"index.toml\"\nhash-format = \"sha256\"\nhash = \"e23c098c867dbb45f672cdb407392c7ed1eaa26d21b969ecf64a49d2a937fc0e\"\n\n[versions]\nforge = \"14.23.5.2838\"\nminecraft = \"1.12.2\"\n```",
     "properties": {
         "author": {
             "description": "The author(s) of the modpack. This is output when exporting to the CurseForge pack format, and can be displayed in user interfaces.",
@@ -47,6 +48,10 @@
         },
         "name": {
             "description": "The name of the modpack. This can be displayed in user interfaces to identify the pack, and it does not need to be unique between packs.",
+            "type": "string"
+        },
+        "pack-format": {
+            "description": "A version string identifying the pack format and version of it. Currently, this pack format uses version 1.0.0.\nIf it is not defined, default to \"packwiz:1.0.0\" for backwards-compatibility with packs created before this field was added.\n\nIf it is defined:\n- All consumers should fail to load the modpack if it does not begin with \"packwiz:\"\n- All consumers should fail to load the modpack if the latter section is not valid semver as defined in https://semver.org/spec/v2.0.0.html\n- All consumers should fail to load the modpack if the major version is greater than the version they support\n- Consumers can suggest updating themselves if the minor version is greater than the version they implement\n- Pack tools should suggest and support migration when they support a version newer than this field",
             "type": "string"
         },
         "version": {

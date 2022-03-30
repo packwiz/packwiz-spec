@@ -6,6 +6,7 @@
             "enum": [
                 "md5",
                 "murmur2",
+                "sha1",
                 "sha256",
                 "sha512"
             ],
@@ -31,6 +32,7 @@
                     "enum": [
                         "md5",
                         "murmur2",
+                        "sha1",
                         "sha256",
                         "sha512"
                     ],

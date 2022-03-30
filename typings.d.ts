@@ -1,15 +1,20 @@
 /**
  * A hashing format used to detect if a file has changed. You may use your own hash format, but the valid values here should be supported and expected for most packs, especially SHA-256 and Murmur2.
  */
-type HashFormat = SHA256 | SHA512 | MD5 | Murmur2
+type HashFormat = SHA1 | SHA256 | SHA512 | MD5 | Murmur2
 
 /**
- * The SHA-256 hashing standard. Used by default for metadata files.
+ * The SHA1 hashing standard.
+ */
+ type SHA1 = "sha1"
+
+/**
+ * The SHA2-256 hashing standard. Used by default for metadata files.
  */
 type SHA256 = "sha256"
 
 /**
- * The SHA-512 hashing standard.
+ * The SHA2-512 hashing standard.
  */
 type SHA512 = "sha512"
 
@@ -38,6 +43,7 @@ type Path = string
  * 
  * ```toml
  * name = "My Modpack"
+ * pack-format = "packwiz:1.0.0"
  * 
  * [index]
  * file = "index.toml"
@@ -51,6 +57,19 @@ type Path = string
  * 
  */
 interface Pack {
+	/**
+	 * A version string identifying the pack format and version of it. Currently, this pack format uses version 1.0.0.
+	 * If it is not defined, default to "packwiz:1.0.0" for backwards-compatibility with packs created before this field was added.
+	 * 
+	 * If it is defined:
+	 * - All consumers should fail to load the modpack if it does not begin with "packwiz:"
+	 * - All consumers should fail to load the modpack if the latter section is not valid semver as defined in https://semver.org/spec/v2.0.0.html
+	 * - All consumers should fail to load the modpack if the major version is greater than the version they support
+	 * - Consumers can suggest updating themselves if the minor version is greater than the version they implement
+	 * - Pack tools should suggest and support migration when they support a version newer than this field
+	 */
+	"pack-format"?: string
+
 	/**
 	 * The name of the modpack. This can be displayed in user interfaces to identify the pack, and it does not need to be unique between packs.
 	 */
