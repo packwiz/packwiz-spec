@@ -88,7 +88,9 @@ interface IndexRef extends SchemaGenerator {}
 	},
 })
 class ComponentVersions {
-	@property.string("The version of Minecraft used by this modpack. This should be in the format used by the version.json files.")
+	@property.string(
+		"The version of Minecraft used by this modpack. This should be in the format used by the version.json files.",
+	)
 	@property.required
 	@property.examples(["1.17.1", "16w02a"])
 	minecraft: undefined;
@@ -105,7 +107,10 @@ class ComponentVersions {
 	@property.examples(["1.12.2-SNAPSHOT"])
 	liteloader: undefined;
 
-	// TODO(format): Quilt, others?
+	@property.string("The version of Quilt loader used by this modpack.")
+	@property.examples(["0.12.1"])
+	quilt: undefined;
+	// TODO(format): others?
 }
 // deno-lint-ignore no-empty-interface
 interface ComponentVersions extends SchemaGenerator {}

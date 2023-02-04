@@ -38,6 +38,7 @@ function _updateMetadata(data: PropertyMetadata) {
 	// deno-lint-ignore ban-types
 	return (target: Object, propertyKey: string | symbol): void => {
 		const metadata = Reflect.getMetadata(objectProperties, target) ?? {};
+		removeUndefinedValues(data);
 		metadata[propertyKey] = {
 			...metadata[propertyKey],
 			...data,
@@ -78,7 +79,6 @@ export abstract class property {
 
 	static ref(description?: string) {
 		return _updateMetadata({
-			type: "object",
 			description,
 		}) as <
 			T extends Record<K, SchemaGenerator>,
@@ -123,6 +123,14 @@ function err(message: string): never {
 	throw new Error(message);
 }
 
+function removeUndefinedValues(obj: object) {
+	for (const key of Object.keys(obj) as (keyof typeof obj)[]) {
+		if (obj[key] === undefined) {
+			delete obj[key];
+		}
+	}
+}
+
 export interface SchemaGenerator {
 	readonly schema: JSONSchema7;
 }
@@ -135,14 +143,13 @@ function enumProperties<T extends SchemaGenerator>(this: T) {
 	if (propertyDataList != null) {
 		for (const name of Object.keys(propertyDataList)) {
 			const propertySchema: JSONSchema7 = {
-				type: propertyDataList[name].type ??
-					err("No type defined for " + name),
 				description: propertyDataList[name].description,
 				enum: propertyDataList[name].enum,
 				uniqueItems: propertyDataList[name].uniqueItems,
 				default: propertyDataList[name].default,
 				examples: propertyDataList[name].examples,
 			};
+			removeUndefinedValues(propertySchema);
 
 			// I tried to remove this cast and make it use keyof;
 			// unfortunately this can't really be done as a subtype could add keys
@@ -170,6 +177,7 @@ function enumProperties<T extends SchemaGenerator>(this: T) {
 				}
 			}
 
+			propertySchema.type = propertyDataList[name].type ?? err("No type defined for " + name);
 			if (items != undefined) {
 				propertySchema.items = items;
 			}
@@ -188,8 +196,8 @@ export function schema(defSchema?: JSONSchema7) {
 			constructor(...args: any) {
 				super(args);
 				this.schema = {
-					...defSchema,
 					type: "object",
+					...defSchema,
 					properties: {},
 				};
 				enumProperties.bind(this)();
