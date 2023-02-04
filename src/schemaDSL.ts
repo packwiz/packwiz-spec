@@ -123,6 +123,7 @@ function err(message: string): never {
 	throw new Error(message);
 }
 
+// deno-lint-ignore ban-types
 function removeUndefinedValues(obj: object) {
 	for (const key of Object.keys(obj) as (keyof typeof obj)[]) {
 		if (obj[key] === undefined) {

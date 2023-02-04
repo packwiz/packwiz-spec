@@ -8,7 +8,8 @@
 	],
 	"properties": {
 		"pack-format": {
-			"description": "A version string identifying the pack format and version of it. Currently, this pack format uses version 1.0.0.\nIf it is not defined, default to \"packwiz:1.0.0\" for backwards-compatibility with packs created before this field was added.\n\nIf it is defined:\n- All consumers should fail to load the modpack if it does not begin with \"packwiz:\"\n- All consumers should fail to load the modpack if the latter section is not valid semver as defined in https://semver.org/spec/v2.0.0.html\n- All consumers should fail to load the modpack if the major version is greater than the version they support\n- Consumers can suggest updating themselves if the minor version is greater than the version they implement\n- Pack tools should suggest and support migration when they support a version newer than this field",
+			"description": "A version string identifying the pack format and version of it. Currently, this pack format uses version 1.1.0.\nIf it is not defined, default to \"packwiz:1.0.0\" for backwards-compatibility with packs created before this field was added.\n\nIf it is defined:\n- All consumers should fail to load the modpack if it does not begin with \"packwiz:\"\n- All consumers should fail to load the modpack if the latter section is not valid semver as defined in https://semver.org/spec/v2.0.0.html\n- All consumers should fail to load the modpack if the major version is greater than the version they support\n- Consumers can suggest updating themselves if the minor version is greater than the version they implement\n- Pack tools should suggest and support migration when they support a version newer than this field",
+			"default": "packwiz:1.1.0",
 			"type": "string"
 		},
 		"name": {
