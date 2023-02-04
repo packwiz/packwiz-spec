@@ -55,7 +55,7 @@ If it is defined:
 	index = new IndexRef();
 
 	@property.ref(
-		`The versions of components used by this modpack - usually Minecraft and the mod loader this pack uses. The existence of a component implies that it should be installed.`,
+		`The versions of components used by this modpack - usually Minecraft and the mod loader this pack uses. The existence of a component implies that it should be installed. These values can also be used by tools to determine which versions of mods should be installed.`,
 	)
 	@property.required
 	versions = new ComponentVersions();
@@ -88,9 +88,7 @@ interface IndexRef extends SchemaGenerator {}
 	},
 })
 class ComponentVersions {
-	@property.string(
-		"The version of Minecraft used by this modpack. This should be in the format used by the version.json files. This value can be used by tools to determine which versions of mods should be installed.",
-	)
+	@property.string("The version of Minecraft used by this modpack. This should be in the format used by the version.json files.")
 	@property.required
 	@property.examples(["1.17.1", "16w02a"])
 	minecraft: undefined;

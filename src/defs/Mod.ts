@@ -108,7 +108,7 @@ interface Option extends SchemaGenerator {}
 
 If this object does not exist or there are no defined update sources, the mod will not be automatically updated.
 
-If there are multiple defined update sources, one of them will be chosen. The source that is chosen is not defined, so it is therefore dependant on the implementation of the tool (may not be deterministic, so do not rely on one source being chosen over another).`,
+If there are multiple defined update sources, one of them will be chosen. The source that is chosen is not defined, so it is therefore dependent on the implementation of the tool (may not be deterministic, so do not rely on one source being chosen over another).`,
 	additionalProperties: {
 		type: "object",
 		description:
