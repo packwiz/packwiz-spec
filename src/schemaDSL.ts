@@ -159,7 +159,7 @@ function enumProperties<T extends SchemaGenerator>(this: T) {
 			if (subObj != undefined && typeof subObj === "object") {
 				if ("schema" in subObj) {
 					const subSchema = subObj.schema as JSONSchema7;
-					if (propertySchema.type == "array") {
+					if (propertyDataList[name].type == "array") {
 						items = subSchema;
 					} else {
 						const combinedSchema = {
