@@ -1,4 +1,5 @@
 {
 	"editor.wordWrap": "bounded",
-	"editor.wordWrapColumn": 100
+	"editor.wordWrapColumn": 120,
+	"deno.enable": true
 }

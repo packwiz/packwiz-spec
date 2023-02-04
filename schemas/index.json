@@ -1,84 +1,83 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "definitions": {
-        "HashFormat": {
-            "description": "A hashing format used to detect if a file has changed. You may use your own hash format, but the valid values here should be supported and expected for most packs, especially SHA-256 and Murmur2.",
-            "enum": [
-                "md5",
-                "murmur2",
-                "sha1",
-                "sha256",
-                "sha512"
-            ],
-            "type": "string"
-        },
-        "HashFormat_1": {
-            "description": "A hashing format used to detect if a file has changed. You may use your own hash format, but the valid values here should be supported and expected for most packs, especially SHA-256 and Murmur2.",
-            "enum": [
-                "md5",
-                "murmur2",
-                "sha1",
-                "sha256",
-                "sha512"
-            ],
-            "type": "string"
-        },
-        "IndexFile": {
-            "description": "A single file in the index, to be downloaded by the modpack installer.",
-            "properties": {
-                "alias": {
-                    "description": "The name with which this file should be downloaded, instead of the filename specified in the path. Not compatible with metafile, and may not be very well supported.",
-                    "type": "string"
-                },
-                "file": {
-                    "$ref": "#/definitions/Path",
-                    "description": "The path to the file to be downloaded, relative to this index file."
-                },
-                "hash": {
-                    "description": "The hash of the specified file, as a string. Binary hashes should be stored as hexadecimal, and case should be ignored during parsing. Numeric hashes (e.g. Murmur2) should still be stored as a string, to ensure the value is preserved correctly.",
-                    "type": "string"
-                },
-                "hash-format": {
-                    "$ref": "#/definitions/HashFormat_1",
-                    "description": "The hash format (algorithm) for the hash of the specified file. Defaults to the hash format specified in the index - ideally remove this value if it is equal to the hash format for the index to save space."
-                },
-                "metafile": {
-                    "description": "True when this entry points to a .toml metadata file, which references a file outside the pack. Defaults to false when omitted.",
-                    "type": "boolean"
-                },
-                "preserve": {
-                    "description": "When this is set to true, the file is not overwritten if it already exists, to preserve changes made by a user. Defaults to false when omitted.",
-                    "type": "boolean"
-                }
-            },
-            "required": [
-                "file",
-                "hash"
-            ],
-            "type": "object"
-        },
-        "Path": {
-            "description": "A relative path using forward slashes. Must not reference a file outside the pack root, and should not include characters or filenames restricted on common operating systems.",
-            "type": "string"
-        }
-    },
-    "description": "The index file of the modpack, storing references to every file to be downloaded in the pack.\n\nExample:\n\n```toml\nhash-format = \"sha256\"\n\n[[files]]\nfile = \"mod.toml\"\nhash = \"a82d23948043048cef6208c8cc8bdac1ea42b6f8d6d73074ea0ab9a955f7ddf2\"\nmetafile = true\n```",
-    "properties": {
-        "files": {
-            "description": "The files listed in this index. If it is not defined, defaults to an empty list.",
-            "items": {
-                "$ref": "#/definitions/IndexFile"
-            },
-            "type": "array"
-        },
-        "hash-format": {
-            "$ref": "#/definitions/HashFormat",
-            "description": "The default hash format (algorithm) for every file in the index."
-        }
-    },
-    "required": [
-        "hash-format"
-    ],
-    "type": "object"
+	"$schema": "http://json-schema.org/draft-07/schema",
+	"title": "index.toml",
+	"description": "The index file of the modpack, storing references to every file to be downloaded in the pack.",
+	"examples": [
+		"hash-format = \"sha256\"\n\n[[files]]\nfile = \"LICENSE\"\nhash = \"36ffd9dc085d529a7e60e1276d73ae5a030b020313e6c5408593a6ae2af39673\"\n\n[[files]]\nfile = \"mods/borderless-mining.pw.toml\"\nhash = \"407fd025c6912135c7d40c238bb96fe05ea8172c403a100ed86f978fc8124c81\"\nmetafile = true\n\n[[files]]\nfile = \"mods/screenshot-to-clipboard-fabric.pw.toml\"\nhash = \"d580e87dd3fbea1d9bd98da604ff9ed7de782565e507a113031f0555763901aa\"\nmetafile = true\n"
+	],
+	"type": "object",
+	"properties": {
+		"files": {
+			"type": "array",
+			"description": "The files listed in this index. If it is not defined, defaults to an empty list.",
+			"uniqueItems": true,
+			"items": {
+				"description": "A single file in the index, to be downloaded by the modpack installer.",
+				"type": "object",
+				"properties": {
+					"file": {
+						"type": "object",
+						"description": "The path to the file to be downloaded, relative to this index file.\n\nA relative path using forward slashes. Must not reference a file outside the pack root, and should not include characters or filenames restricted on common operating systems.\n\nImplementations must support special characters including those that are percent-encoded in URLs, such as spaces and square brackets. Implementations must guard against path traversal attacks and manually validate paths.",
+						"pattern": "^([^/\\0-\\x1F\\x7F\"*/:<>?\\\\|]+\\/)*[^/\\0-\\x1F\\x7F\"*/:<>?\\\\|]*$"
+					},
+					"hash": {
+						"type": "object",
+						"description": "The hash of the specified file, as a string.\n\nBinary hashes should be stored as hexadecimal, and case should be ignored during parsing. Numeric hashes (e.g. Murmur2) should still be stored as a string, to ensure the value is preserved correctly."
+					},
+					"hash-format": {
+						"type": "object",
+						"description": "The hash format for the hash of the specified file. Defaults to the hash format specified in the index - ideally remove this value if it is equal to the hash format for the index to save space.\n\nThe hash algorithm used to determine if a file is valid. All functions listed must be supported by tools implementing the packwiz pack format.",
+						"x-taplo": {
+							"docs": {
+								"enumValues": [
+									"The SHA2-256 hashing standard. Used by default for metadata files.",
+									"The SHA2-512 hashing standard.",
+									"The SHA1 hashing standard.",
+									"The MD5 hashing standard.",
+									"The CurseForge variant of MurmurHash2: MurmurHash2 32-bit hashing standard (seed 1) with some characters removed before applying the hash (decimal bytes 9, 10, 13, 32), stored as an unsigned integer.\n\nIn Java, use Integer.parseUnsignedInt to parse this value."
+								]
+							}
+						}
+					},
+					"metafile": {
+						"type": "boolean",
+						"description": "True when this entry points to a .toml metadata file, which references a file outside the pack.",
+						"default": false
+					},
+					"preserve": {
+						"type": "boolean",
+						"description": "When this is set to true, the file is not overwritten if it already exists, to preserve changes made by a user.",
+						"default": false
+					},
+					"alias": {
+						"type": "string",
+						"description": "The name with which this file should be downloaded, instead of the filename specified in the path. Not compatible with metafile, and may not be very well supported."
+					}
+				},
+				"required": [
+					"file",
+					"hash"
+				]
+			}
+		},
+		"hash-format": {
+			"type": "object",
+			"description": "The default hash format for every file in the index.\n\nThe hash algorithm used to determine if a file is valid. All functions listed must be supported by tools implementing the packwiz pack format.",
+			"x-taplo": {
+				"docs": {
+					"enumValues": [
+						"The SHA2-256 hashing standard. Used by default for metadata files.",
+						"The SHA2-512 hashing standard.",
+						"The SHA1 hashing standard.",
+						"The MD5 hashing standard.",
+						"The CurseForge variant of MurmurHash2: MurmurHash2 32-bit hashing standard (seed 1) with some characters removed before applying the hash (decimal bytes 9, 10, 13, 32), stored as an unsigned integer.\n\nIn Java, use Integer.parseUnsignedInt to parse this value."
+					]
+				}
+			},
+			"default": "sha256"
+		}
+	},
+	"required": [
+		"hash-format"
+	]
 }
-

@@ -1,162 +1,153 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "definitions": {
-        "CurseforgeUpdate": {
-            "$ref": "#/definitions/CurseforgeUpdate_1",
-            "description": "An update value for updating mods downloaded from CurseForge."
-        },
-        "CurseforgeUpdate_1": {
-            "description": "An update value for updating mods downloaded from CurseForge.",
-            "properties": {
-                "file-id": {
-                    "description": "An integer representing the unique file ID of this mod file. This can be used if more metadata needs to be obtained relating to the mod.",
-                    "type": "number"
-                },
-                "project-id": {
-                    "description": "An integer representing the unique project ID of this mod. Updating will retrieve the latest file for this project ID that is valid (correct Minecraft version, release channel, modloader, etc.).",
-                    "type": "number"
-                }
-            },
-            "required": [
-                "file-id",
-                "project-id"
-            ],
-            "type": "object"
-        },
-        "HashFormat": {
-            "description": "A hashing format used to detect if a file has changed. You may use your own hash format, but the valid values here should be supported and expected for most packs, especially SHA-256 and Murmur2.",
-            "enum": [
-                "md5",
-                "murmur2",
-                "sha1",
-                "sha256",
-                "sha512"
-            ],
-            "type": "string"
-        },
-        "ModrinthUpdate": {
-            "$ref": "#/definitions/ModrinthUpdate_1",
-            "description": "An update value for updating mods downloaded from Modrinth."
-        },
-        "ModrinthUpdate_1": {
-            "description": "An update value for updating mods downloaded from Modrinth.",
-            "properties": {
-                "mod-id": {
-                    "description": "A string representing the unique mod ID of this mod. Updating will retrieve the latest file for this project ID that is valid (correct Minecraft version, release channel, modloader, etc.).",
-                    "type": "string"
-                },
-                "version": {
-                    "description": "A string representing the unique version ID of this file. This can be used if more metadata needs to be obtained relating to the mod.",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "mod-id",
-                "version"
-            ],
-            "type": "object"
-        },
-        "Path": {
-            "description": "A relative path using forward slashes. Must not reference a file outside the pack root, and should not include characters or filenames restricted on common operating systems.",
-            "type": "string"
-        },
-        "RFC2396URL": {
-            "description": "A URI reference compliant to RFC 2396; specifically RFC 2396 amended by RFC 2732 for IPv6 support. This ensures compatibility with older URI parsers that do not support RFC 3986 - if your URI implementation complies with RFC 3986 make sure that it correctly encodes [ and ] to %5B and %5D respectively.",
-            "type": "string"
-        },
-        "Side": {
-            "description": "A physical Minecraft side. Server applies to the dedicated server, client applies to the client (and integrated server), and both applies to every installation.",
-            "enum": [
-                "both",
-                "client",
-                "server"
-            ],
-            "type": "string"
-        },
-        "UpdateImplementation": {
-            "description": "This interface defines no properties - it exists solely to restrict the possible update values to those that are intended as update implementations.",
-            "type": "object"
-        }
-    },
-    "description": "A metadata file which references an external file from a URL. This allows for side-only mods, optional mods and stores metadata to allow finding updates from Modrinth and CurseForge. The \"mod\" terminology is used a lot here, but this should work for any file.\n\nExample:\n\n```toml\nname = \"Demagnetize\"\nfilename = \"demagnetize-1.12.2-1.1.1.jar\"\nside = \"both\"\n\n[download]\nurl = \"https://edge.forgecdn.net/files/2834/566/demagnetize-1.12.2-1.1.1.jar\"\nhash-format = \"murmur2\"\nhash = \"2953308073\"\n\n[update]\n[update.curseforge]\nfile-id = 2834566\nproject-id = 301356\nrelease-channel = \"beta\"\n```",
-    "properties": {
-        "download": {
-            "description": "Information about how to download this mod.",
-            "properties": {
-                "hash": {
-                    "description": "The hash of the specified file, as a string. Binary hashes should be stored as hexadecimal, and case should be ignored during parsing. Numeric hashes (e.g. Murmur2) should still be stored as a string, to ensure the value is preserved correctly.",
-                    "type": "string"
-                },
-                "hash-format": {
-                    "$ref": "#/definitions/HashFormat",
-                    "description": "The hash format (algorithm) for the hash of the specified file."
-                },
-                "url": {
-                    "$ref": "#/definitions/RFC2396URL",
-                    "description": "The URL to download the mod from."
-                }
-            },
-            "required": [
-                "hash",
-                "hash-format",
-                "url"
-            ],
-            "type": "object"
-        },
-        "filename": {
-            "$ref": "#/definitions/Path",
-            "description": "The destination path of the mod file, relative to this file."
-        },
-        "name": {
-            "description": "The name of the mod, which can be displayed in user interfaces to identify the mod. It does not need to be unique between mods, although this may cause confusion.",
-            "type": "string"
-        },
-        "option": {
-            "description": "Information about the optional state of this mod. When excluded, this indicates that the mod is not optional.",
-            "properties": {
-                "default": {
-                    "description": "If true, the mod will be enabled by default. If false, the mod will be disabled by default. If omitted, will behave as if false was set. If a pack format does not support optional mods but it does support disabling mods, the mod will be disabled if it defaults to being disabled.",
-                    "type": "boolean"
-                },
-                "description": {
-                    "description": "A description displayed to the user when they select optional mods. This should explain why or why not the user should enable the mod.",
-                    "type": "string"
-                },
-                "optional": {
-                    "description": "Whether or not the mod is optional. This can be set to false if you want to keep the description but make the mod required.",
-                    "type": "boolean"
-                }
-            },
-            "required": [
-                "optional"
-            ],
-            "type": "object"
-        },
-        "side": {
-            "$ref": "#/definitions/Side",
-            "description": "The side on which this mod should be installed. Defaults to \"both\"."
-        },
-        "update": {
-            "additionalProperties": {
-                "$ref": "#/definitions/UpdateImplementation"
-            },
-            "description": "Information about how to update the download details of this mod with tools. The information stored is specific to the update interface.\n\nIf this value does not exist or there are no defined update values, the mod will not be automatically updated.\n\nIf there are multiple defined update values, one of them will be chosen. The value that is chosen is not defined, so it is therefore dependant on the implementation of the tool (may not be deterministic, so do not rely on one value being chosen over another).",
-            "properties": {
-                "curseforge": {
-                    "$ref": "#/definitions/CurseforgeUpdate"
-                },
-                "modrinth": {
-                    "$ref": "#/definitions/ModrinthUpdate"
-                }
-            },
-            "type": "object"
-        }
-    },
-    "required": [
-        "download",
-        "filename",
-        "name"
-    ],
-    "type": "object"
+	"$schema": "http://json-schema.org/draft-07/schema",
+	"title": "mod.pw.toml",
+	"description": "A metadata file which references an external file from a URL. This allows for side-only mods, optional mods and stores metadata to allow finding updates from Modrinth and CurseForge. The \"mod\" terminology is used a lot here, but this should work for any file.",
+	"examples": [
+		"name = \"Borderless Mining\"\nfilename = \"borderless-mining-1.1.5+1.19.jar\"\nside = \"client\"\n\n[download]\nurl = \"https://cdn.modrinth.com/data/kYq5qkSL/versions/1.1.5+1.19/borderless-mining-1.1.5%2B1.19.jar\"\nhash-format = \"sha1\"\nhash = \"08f98e28057a0fbdb288c947b7871def4b18b176\"\n\n[update]\n[update.modrinth]\nmod-id = \"kYq5qkSL\"\nversion = \"gqoXgtxO\"\n"
+	],
+	"type": "object",
+	"properties": {
+		"name": {
+			"type": "string",
+			"description": "The name of the mod, which can be displayed in user interfaces to identify the mod. It does not need to be unique between mods, although this may cause confusion.",
+			"examples": [
+				"Borderless Mining"
+			]
+		},
+		"filename": {
+			"type": "object",
+			"description": "The destination path of the mod file, relative to this file.\n\nA relative path using forward slashes. Must not reference a file outside the pack root, and should not include characters or filenames restricted on common operating systems.\n\nImplementations must support special characters including those that are percent-encoded in URLs, such as spaces and square brackets. Implementations must guard against path traversal attacks and manually validate paths.",
+			"pattern": "^([^/\\0-\\x1F\\x7F\"*/:<>?\\\\|]+\\/)*[^/\\0-\\x1F\\x7F\"*/:<>?\\\\|]*$",
+			"examples": [
+				"borderless-mining-1.1.5+1.19.jar"
+			]
+		},
+		"side": {
+			"type": "string",
+			"description": "The side on which this mod should be installed.\n\nA physical Minecraft side. Server applies to the dedicated server, client applies to the client (and integrated server), and both applies to every installation.",
+			"enum": [
+				"both",
+				"client",
+				"server"
+			],
+			"default": "both"
+		},
+		"download": {
+			"type": "object",
+			"properties": {
+				"url": {
+					"type": "object",
+					"description": "The URL to download the mod from.\n\nAn absolute URI compliant with RFC 3986. Implementations may need to be more lenient in accepting reserved characters in paths due to historical implementation bugs. Only the HTTP/HTTPS protocols must be supported, other protocols should not be used.",
+					"format": "uri"
+				},
+				"hash": {
+					"type": "object",
+					"description": "The hash of the specified file, as a string.\n\nBinary hashes should be stored as hexadecimal, and case should be ignored during parsing. Numeric hashes (e.g. Murmur2) should still be stored as a string, to ensure the value is preserved correctly."
+				},
+				"hash-format": {
+					"type": "object",
+					"description": "The hash format for the hash of the specified file.\n\nThe hash algorithm used to determine if a file is valid. All functions listed must be supported by tools implementing the packwiz pack format.",
+					"x-taplo": {
+						"docs": {
+							"enumValues": [
+								"The SHA2-256 hashing standard. Used by default for metadata files.",
+								"The SHA2-512 hashing standard.",
+								"The SHA1 hashing standard.",
+								"The MD5 hashing standard.",
+								"The CurseForge variant of MurmurHash2: MurmurHash2 32-bit hashing standard (seed 1) with some characters removed before applying the hash (decimal bytes 9, 10, 13, 32), stored as an unsigned integer.\n\nIn Java, use Integer.parseUnsignedInt to parse this value."
+							]
+						}
+					}
+				}
+			},
+			"required": [
+				"url",
+				"hash",
+				"hash-format"
+			]
+		},
+		"option": {
+			"type": "object",
+			"properties": {
+				"optional": {
+					"type": "boolean",
+					"description": "Whether or not the mod is optional. This can be set to false if you want to keep the description but make the mod required.",
+					"default": false
+				},
+				"description": {
+					"type": "string",
+					"description": "A description displayed to the user when they select optional mods. This should explain why or why not the user should enable the mod."
+				},
+				"default": {
+					"type": "boolean",
+					"description": "If true, the mod will be enabled by default. If false, the mod will be disabled by default. If a pack format does not support optional mods but it does support disabling mods, the mod will be disabled if it defaults to being disabled.",
+					"default": false
+				}
+			},
+			"required": [
+				"optional"
+			]
+		},
+		"update": {
+			"additionalProperties": {
+				"type": "object",
+				"description": "Implementations are free to support other update sources, but it would be beneficial to document and standardise these."
+			},
+			"type": "object",
+			"properties": {
+				"curseforge": {
+					"type": "object",
+					"properties": {
+						"project-id": {
+							"type": "number",
+							"description": "An integer representing the unique project ID of this mod. Updating will retrieve the latest file for this project ID that is valid (correct Minecraft version, release channel, modloader, etc.).",
+							"examples": [
+								327154
+							]
+						},
+						"file-id": {
+							"type": "number",
+							"description": "An integer representing the unique file ID of this mod file. This can be used if more metadata needs to be obtained relating to the mod.",
+							"examples": [
+								3643025
+							]
+						}
+					},
+					"required": [
+						"project-id",
+						"file-id"
+					]
+				},
+				"modrinth": {
+					"type": "object",
+					"properties": {
+						"mod-id": {
+							"type": "string",
+							"description": "A string representing the unique mod ID of this mod. Updating will retrieve the latest file for this project ID that is valid (correct Minecraft version, release channel, modloader, etc.).",
+							"examples": [
+								"kYq5qkSL"
+							]
+						},
+						"version": {
+							"type": "string",
+							"description": "A string representing the unique version ID of this file. This can be used if more metadata needs to be obtained relating to the mod.",
+							"examples": [
+								"gqoXgtxO"
+							]
+						}
+					},
+					"required": [
+						"mod-id",
+						"version"
+					]
+				}
+			},
+			"required": []
+		}
+	},
+	"required": [
+		"name",
+		"filename",
+		"download"
+	]
 }
-
