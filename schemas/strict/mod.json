@@ -1,6 +1,6 @@
 {
 	"type": "object",
-	"$id": "https://packwiz.infra.link/meta/format/v1/mod.json",
+	"$id": "https://packwiz.infra.link/meta/format/v1/strict/mod.json",
 	"$schema": "http://json-schema.org/draft-07/schema",
 	"title": "mod.pw.toml",
 	"description": "A metadata file which references an external file from a URL. This allows for side-only mods, optional mods and stores metadata to allow finding updates from Modrinth and CurseForge. The \"mod\" terminology is used a lot here, but this should work for any file.",
@@ -72,6 +72,7 @@
 					}
 				}
 			},
+			"additionalProperties": false,
 			"required": [
 				"url",
 				"hash",
@@ -97,6 +98,7 @@
 					"type": "boolean"
 				}
 			},
+			"additionalProperties": false,
 			"required": [
 				"optional"
 			]
@@ -128,6 +130,7 @@
 							"type": "number"
 						}
 					},
+					"additionalProperties": false,
 					"required": [
 						"project-id",
 						"file-id"
@@ -152,6 +155,7 @@
 							"type": "string"
 						}
 					},
+					"additionalProperties": false,
 					"required": [
 						"mod-id",
 						"version"
@@ -161,6 +165,7 @@
 			"required": []
 		}
 	},
+	"additionalProperties": false,
 	"required": [
 		"name",
 		"filename",

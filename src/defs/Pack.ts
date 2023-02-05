@@ -1,10 +1,12 @@
+import { strictMode } from "../constants.ts";
 import { property, schema, SchemaGenerator } from "../schemaDSL.ts";
 import { Hash } from "./shared/Hash.ts";
 import { HashFormat } from "./shared/HashFormat.ts";
+import { PackFormat } from "./shared/PackFormat.ts";
 import { Path } from "./shared/Path.ts";
 
 @schema({
-	// TODO(gen): $id?
+	$id: `https://packwiz.infra.link/meta/format/v1/${strictMode ? "strict/" : ""}mod.json`,
 	$schema: "http://json-schema.org/draft-07/schema",
 	title: "pack.toml",
 	description: `The main modpack file for a packwiz modpack.
@@ -15,22 +17,9 @@ import { Path } from "./shared/Path.ts";
 	// TODO(gen): Taplo extensions: links?
 })
 export class Pack {
-	// TODO(gen): Regular expression to match valid values
-	// TODO(gen): Generate different versions of schemas for different uses?
-	@property.string(
-		`A version string identifying the pack format and version of it. Currently, this pack format uses version 1.1.0.
-If it is not defined, default to \"packwiz:1.0.0\" for backwards-compatibility with packs created before this field was added.
-
-If it is defined:
-- All consumers should fail to load the modpack if it does not begin with \"packwiz:\"
-- All consumers should fail to load the modpack if the latter section is not valid semver as defined in https://semver.org/spec/v2.0.0.html
-- All consumers should fail to load the modpack if the major version is greater than the version they support
-- Consumers can suggest updating themselves if the minor version is greater than the version they implement
-- Pack tools should suggest and support migration when they support a version newer than this field`,
-	)
-	@property.required
-	@property.default("packwiz:1.1.0")
-	"pack-format": undefined;
+	@property.ref()
+	@property.requiredIfStrict
+	"pack-format" = new PackFormat();
 
 	@property.string(
 		"The name of the modpack. This can be displayed in user interfaces to identify the pack, and it does not need to be unique between packs.",

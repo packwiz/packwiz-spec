@@ -1,6 +1,6 @@
 {
 	"type": "object",
-	"$id": "https://packwiz.infra.link/meta/format/v1/index.json",
+	"$id": "https://packwiz.infra.link/meta/format/v1/strict/index.json",
 	"$schema": "http://json-schema.org/draft-07/schema",
 	"title": "index.toml",
 	"description": "The index file of the modpack, storing references to every file to be downloaded in the pack.",
@@ -65,6 +65,7 @@
 						"type": "string"
 					}
 				},
+				"additionalProperties": false,
 				"required": [
 					"file",
 					"hash"
@@ -95,6 +96,7 @@
 			"default": "sha256"
 		}
 	},
+	"additionalProperties": false,
 	"required": [
 		"hash-format"
 	]

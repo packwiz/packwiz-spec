@@ -6,6 +6,7 @@
 
 import "npm:reflect-metadata";
 import { JSONSchema7, JSONSchema7Type } from "npm:@types/json-schema";
+import { strictMode } from "./constants.ts";
 
 interface PropertyMetadata {
 	type?: "object" | "string" | "array" | "boolean" | "number";
@@ -106,6 +107,13 @@ export abstract class property {
 		})(target, propertyKey);
 	}
 
+	// deno-lint-ignore ban-types
+	static requiredIfStrict(target: Object, propertyKey: string | symbol) {
+		if (strictMode) {
+			property.required(target, propertyKey);
+		}
+	}
+
 	static default(value: JSONSchema7Type) {
 		return _updateMetadata({
 			default: value,
@@ -172,6 +180,12 @@ function enumProperties<T extends SchemaGenerator>(this: T) {
 									"\n\n" + subSchema.description;
 							}
 						}
+						if (
+							strictMode && combinedSchema.type == "object" &&
+							combinedSchema.additionalProperties === undefined
+						) {
+							combinedSchema.additionalProperties = false;
+						}
 						this.schema.properties![name] = combinedSchema;
 						continue;
 					}
@@ -201,6 +215,9 @@ export function schema(defSchema?: JSONSchema7) {
 					...defSchema,
 					properties: {},
 				};
+				if (strictMode && this.schema.additionalProperties === undefined) {
+					this.schema.additionalProperties = false;
+				}
 				enumProperties.bind(this)();
 			}
 		};

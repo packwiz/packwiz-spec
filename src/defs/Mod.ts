@@ -1,3 +1,4 @@
+import { strictMode } from "../constants.ts";
 import { property, schema, SchemaGenerator } from "../schemaDSL.ts";
 import { Hash } from "./shared/Hash.ts";
 import { HashFormat } from "./shared/HashFormat.ts";
@@ -8,7 +9,7 @@ import { Path } from "./shared/Path.ts";
 // TODO(doc): Document file extension
 
 @schema({
-	// TODO(gen): $id?
+	$id: `https://packwiz.infra.link/meta/format/v1/${strictMode ? "strict/" : ""}mod.json`,
 	$schema: "http://json-schema.org/draft-07/schema",
 	title: "mod.pw.toml",
 	description:

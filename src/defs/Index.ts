@@ -1,10 +1,11 @@
+import { strictMode } from "../constants.ts";
 import { property, schema, SchemaGenerator } from "../schemaDSL.ts";
 import { Hash } from "./shared/Hash.ts";
 import { HashFormat } from "./shared/HashFormat.ts";
 import { Path } from "./shared/Path.ts";
 
 @schema({
-	// TODO(gen): $id?
+	$id: `https://packwiz.infra.link/meta/format/v1/${strictMode ? "strict/" : ""}index.json`,
 	$schema: "http://json-schema.org/draft-07/schema",
 	title: "index.toml",
 	description: `The index file of the modpack, storing references to every file to be downloaded in the pack.`,

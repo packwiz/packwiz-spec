@@ -1,6 +1,6 @@
 {
 	"tasks": {
-		"build": "deno run --allow-env --allow-write=schemas --allow-read=example-pack ./src/genSchemas.ts"
+		"build": "deno run --allow-env --allow-write=schemas --allow-read=example-pack ./src/genSchemas.ts && deno run --allow-env --allow-write=schemas --allow-read=example-pack ./src/genSchemas.ts --strict"
 	},
 	"fmt": {
 		"files": {
