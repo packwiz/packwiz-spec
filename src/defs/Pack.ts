@@ -9,8 +9,7 @@ import { Path } from "./shared/Path.ts";
 	$id: `https://packwiz.infra.link/meta/format/v1/${strictMode ? "strict/" : ""}mod.json`,
 	$schema: "http://json-schema.org/draft-07/schema",
 	title: "pack.toml",
-	description: `The main modpack file for a packwiz modpack.
-	This is the first file loaded, to allow the modpack downloader to download all the files in the modpack.`,
+	description: `The main modpack file for a packwiz modpack. This is the first file loaded, to allow the modpack downloader to download all the files in the modpack.`,
 	examples: [
 		await Deno.readTextFile("./example-pack/pack.toml"),
 	],

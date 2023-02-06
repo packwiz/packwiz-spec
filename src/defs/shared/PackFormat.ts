@@ -10,6 +10,7 @@ export class PackFormat implements SchemaGenerator {
 If it is not defined, default to \"packwiz:1.0.0\" for backwards-compatibility with packs created before this field was added.
 
 If it is defined:
+
 - All consumers should fail to load the modpack if it does not begin with \"packwiz:\"
 - All consumers should fail to load the modpack if the latter section is not valid semver as defined in https://semver.org/spec/v2.0.0.html
 - All consumers should fail to load the modpack if the major version is greater than the version they support

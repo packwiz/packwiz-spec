@@ -3,14 +3,14 @@
 	"$id": "https://packwiz.infra.link/meta/format/v1/strict/mod.json",
 	"$schema": "http://json-schema.org/draft-07/schema",
 	"title": "pack.toml",
-	"description": "The main modpack file for a packwiz modpack.\n\tThis is the first file loaded, to allow the modpack downloader to download all the files in the modpack.",
+	"description": "The main modpack file for a packwiz modpack. This is the first file loaded, to allow the modpack downloader to download all the files in the modpack.",
 	"examples": [
 		"name = \"packwiz Example Pack\"\nauthor = \"comp500\"\nversion = \"1.0.0\"\npack-format = \"packwiz:1.1.0\"\n\n[index]\nfile = \"index.toml\"\nhash-format = \"sha256\"\nhash = \"29bcf953b90081730cd8a32cc4d855ab6ad96685c3aeea6ed033dc4f04d390ac\"\n\n[versions]\nminecraft = \"1.19\"\nquilt = \"0.17.0\"\n"
 	],
 	"properties": {
 		"pack-format": {
 			"type": "string",
-			"description": "A version string identifying the pack format and version of it. Currently, this pack format uses version 1.1.0.\nIf it is not defined, default to \"packwiz:1.0.0\" for backwards-compatibility with packs created before this field was added.\n\nIf it is defined:\n- All consumers should fail to load the modpack if it does not begin with \"packwiz:\"\n- All consumers should fail to load the modpack if the latter section is not valid semver as defined in https://semver.org/spec/v2.0.0.html\n- All consumers should fail to load the modpack if the major version is greater than the version they support\n- Consumers can suggest updating themselves if the minor version is greater than the version they implement\n- Pack tools should suggest and support migration when they support a version newer than this field",
+			"description": "A version string identifying the pack format and version of it. Currently, this pack format uses version 1.1.0.\nIf it is not defined, default to \"packwiz:1.0.0\" for backwards-compatibility with packs created before this field was added.\n\nIf it is defined:\n\n- All consumers should fail to load the modpack if it does not begin with \"packwiz:\"\n- All consumers should fail to load the modpack if the latter section is not valid semver as defined in https://semver.org/spec/v2.0.0.html\n- All consumers should fail to load the modpack if the major version is greater than the version they support\n- Consumers can suggest updating themselves if the minor version is greater than the version they implement\n- Pack tools should suggest and support migration when they support a version newer than this field",
 			"const": "packwiz:1.1.0"
 		},
 		"name": {
