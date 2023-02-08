@@ -1,3 +1,4 @@
+/// <reference path="./jsonSchemaExtensions.ts"/>
 /**
  * Decorators to allow the creation of a subset of JSON Schema from TypeScript classes
  */
@@ -222,23 +223,4 @@ export function schema(defSchema?: JSONSchema7) {
 			}
 		};
 	};
-}
-
-// Declare x-taplo extension fields
-declare module "npm:@types/json-schema" {
-	export interface JSONSchema7 {
-		"x-taplo"?: {
-			hidden?: boolean;
-			docs?: {
-				main?: string;
-				enumValues?: (string | null)[];
-				defaultValue?: string;
-			};
-			links?: {
-				key?: string;
-				enumValues?: string[];
-			};
-			initKeys?: string[];
-		};
-	}
 }

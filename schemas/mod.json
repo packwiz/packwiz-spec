@@ -7,6 +7,9 @@
 	"examples": [
 		"name = \"Borderless Mining\"\nfilename = \"borderless-mining-1.1.5+1.19.jar\"\nside = \"client\"\n\n[download]\nurl = \"https://cdn.modrinth.com/data/kYq5qkSL/versions/1.1.5+1.19/borderless-mining-1.1.5%2B1.19.jar\"\nhash-format = \"sha1\"\nhash = \"08f98e28057a0fbdb288c947b7871def4b18b176\"\n\n[update]\n[update.modrinth]\nmod-id = \"kYq5qkSL\"\nversion = \"gqoXgtxO\"\n"
 	],
+	"x-packwiz-spec-gen": {
+		"exampleDoc": "See the full example: `borderless-mining.pw.toml` in [the example pack on GitHub](https://github.com/packwiz/packwiz-example-pack/blob/v1/mods/borderless-mining.pw.toml)."
+	},
 	"properties": {
 		"name": {
 			"description": "The name of the mod, which can be displayed in user interfaces to identify the mod. It does not need to be unique between mods, although this may cause confusion.",

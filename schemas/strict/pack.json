@@ -7,6 +7,9 @@
 	"examples": [
 		"name = \"packwiz Example Pack\"\nauthor = \"comp500\"\nversion = \"1.0.0\"\npack-format = \"packwiz:1.1.0\"\n\n[index]\nfile = \"index.toml\"\nhash-format = \"sha256\"\nhash = \"29bcf953b90081730cd8a32cc4d855ab6ad96685c3aeea6ed033dc4f04d390ac\"\n\n[versions]\nminecraft = \"1.19\"\nquilt = \"0.17.0\"\n"
 	],
+	"x-packwiz-spec-gen": {
+		"exampleDoc": "See the full example: `pack.toml` in [the example pack on GitHub](https://github.com/packwiz/packwiz-example-pack/blob/v1/pack.toml)."
+	},
 	"properties": {
 		"pack-format": {
 			"type": "string",
