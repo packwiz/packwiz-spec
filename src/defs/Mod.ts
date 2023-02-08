@@ -20,7 +20,8 @@ import { Path } from "./shared/Path.ts";
 		),
 	],
 	"x-packwiz-spec-gen": {
-		exampleDoc: "See the full example: `borderless-mining.pw.toml` in [the example pack on GitHub](https://github.com/packwiz/packwiz-example-pack/blob/v1/mods/borderless-mining.pw.toml).",
+		exampleDoc:
+			"See the full example: `borderless-mining.pw.toml` in [the example pack on GitHub](https://github.com/packwiz/packwiz-example-pack/blob/v1/mods/borderless-mining.pw.toml).",
 	},
 	// TODO(gen): Taplo extensions: links?
 })

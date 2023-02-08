@@ -15,7 +15,8 @@ import { Path } from "./shared/Path.ts";
 		await Deno.readTextFile("./example-pack/pack.toml"),
 	],
 	"x-packwiz-spec-gen": {
-		exampleDoc: "See the full example: `pack.toml` in [the example pack on GitHub](https://github.com/packwiz/packwiz-example-pack/blob/v1/pack.toml).",
+		exampleDoc:
+			"See the full example: `pack.toml` in [the example pack on GitHub](https://github.com/packwiz/packwiz-example-pack/blob/v1/pack.toml).",
 	},
 	// TODO(gen): Taplo extensions: links?
 })
