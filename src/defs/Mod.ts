@@ -116,6 +116,7 @@ If this object does not exist or there are no defined update sources, the mod wi
 If there are multiple defined update sources, one of them will be chosen. The source that is chosen is not defined, so it is therefore dependent on the implementation of the tool (may not be deterministic, so do not rely on one source being chosen over another).`,
 	additionalProperties: {
 		type: "object",
+		title: "Other update sources",
 		description:
 			"Implementations are free to support other update sources, but it would be beneficial to document and standardise these.",
 	},
