@@ -78,6 +78,9 @@ interface IndexRef extends SchemaGenerator {}
 @schema({
 	additionalProperties: {
 		type: "string",
+		title: "Other versions",
+		description:
+			"Versions of components that are not supported by tools should be ignored, and preserved when updating this file. For better interoperability, it would be beneficial to use the same component names and versions between tools, and document the behaviour here.",
 	},
 })
 class ComponentVersions {
