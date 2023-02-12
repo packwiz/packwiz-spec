@@ -1,8 +1,19 @@
 # packwiz-spec
 A format for specifying Minecraft modpacks, designed to be easy to manipulate with tools. This modpack format is heavily inspired by the manifest format of [Scoop](https://github.com/lukesampson/scoop) and by [PackUpdate](https://github.com/XDjackieXD/PackUpdate). See the website generated from this specification at https://packwiz.infra.link/.
 
+## Overview
+The packwiz CLI uses a custom format to store metadata about files contained in modpacks, which allows automatic updating of files and distribution with packwiz-installer. This consists of 3 metadata file types using the [TOML format](https://toml.io/en/) as follows:
+
+- `pack.toml` stores metadata about the modpack itself, including Minecraft and mod loader versions
+- `index.toml` stores a list of files in the modpack, with hashes to determine when files have been changed
+- `external.pw.toml` references files that are to be downloaded from an external support, with optional and side-only filtering, including metadata to allow these links to be updated
+	- Any filename is allowed for these metadata files; `metafile = true` in the index indicates which files are external
+	- The extension `.pw.toml` is recommended to allow `metafile = true` to be automatically set by the CLI (and may be required in a future version of the format)
+
+`pack.toml` and `index.toml` are typically stored in the root directory of the modpack; external references can be placed in any directory, but they are typically used for mods and resource packs.
+
 ## JSON schemas
-The packwiz pack format is described by 3 JSON schemas, representing metadata about the pack, a list of all files in the pack, and references to external files with update/side/optional metadata. Two versions of the JSON schemas are available: strict and non-strict. Put simply, it is recommended you use the strict schemas for developing new modpacks, and the non-strict schemas for validating existing modpacks.
+TOML files in the format are described by 3 JSON schemas. Two versions of the JSON schemas are available: strict and non-strict. Put simply, it is recommended you use the strict schemas for developing new modpacks, and the non-strict schemas for validating existing modpacks (e.g. in a third-party tool).
 
 For development, these schemas are available from https://packwiz.infra.link/meta/format/v1/strict/, and can be used with the [Even Better TOML extension for VSCode](https://marketplace.visualstudio.com/items?itemName=tamasfe.even-better-toml) with the following settings.json configuration:
 
