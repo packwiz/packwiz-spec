@@ -53,6 +53,9 @@ export class Pack {
 	@property.required
 	versions = new ComponentVersions();
 
+	@property.ref("Metadata used to determine how to create modpack exports in other formats. CurseForge is currently the only pack format with export options.")
+	"export" = new Export();
+
 	// TODO(doc): export, options
 }
 // deno-lint-ignore no-empty-interface
@@ -110,5 +113,31 @@ class ComponentVersions {
 }
 // deno-lint-ignore no-empty-interface
 interface ComponentVersions extends SchemaGenerator {}
+
+@schema({
+	additionalProperties: {
+		type: "string",
+		title: "Other export formats",
+		description:
+			"Export format option types that are not supported by tools should be ignored, and preserved when updating this file. For better interoperability, it would be beneficial to use the same export options between tools, and document the behaviour here.",
+	},
+})
+class Export {
+	@property.ref()
+	curseforge = new CurseForgeExport();
+}
+// deno-lint-ignore no-empty-interface
+interface Export extends SchemaGenerator {}
+
+@schema()
+class CurseForgeExport {
+	@property.number(
+		"An integer representing the project ID of the exported modpack, to be included in the manifest.json. The functionality provided by including this ID in the pack is undocumented, and may vary between launchers.",
+	)
+	@property.examples([327154])
+	"project-id": undefined;
+}
+// deno-lint-ignore no-empty-interface
+interface CurseForgeExport extends SchemaGenerator {}
 
 export default Pack;
