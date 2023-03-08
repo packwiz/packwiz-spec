@@ -5,14 +5,16 @@ import { HashFormat } from "./shared/HashFormat.ts";
 import { PackwizURL } from "./shared/PackwizURL.ts";
 import { Path } from "./shared/Path.ts";
 
-// TODO(doc): Document file extension
-
 @schema({
 	$id: `https://packwiz.infra.link/meta/format/v1/${strictMode ? "strict/" : ""}meta.json`,
 	$schema: "http://json-schema.org/draft-07/schema",
 	title: "meta.pw.toml",
 	description:
-		`A metadata file which references a file from an external server. This allows for sided mods, optional mods and stores metadata to allow finding updates from Modrinth and CurseForge. Mods are typically referenced externally, but any type of file is supported, including resource packs and shader packs.`,
+		`A metadata file which references a file from an external server. This allows for sided mods, optional mods and stores metadata to allow finding updates from Modrinth and CurseForge. Mods are typically referenced externally, but any type of file is supported, including resource packs and shader packs.
+
+Any filename should be supported for these metadata files, but the \`.pw.toml\` extension should be encouraged as this can be automatically marked as \`metafile = true\` by tools, and this file extension may be required in future versions. A lowercase kebab-cased slug is conventionally used for the filename, typically the same as the slug of the project from which the file was downloaded. This filename should stay consistent when a file is updated, to ensure that optional file choices are preserved.
+
+Tools must treat files with \`metafile = true\` in the index as metadata files regardless of extension, for backwards compatibility with older packs that don't use the extension. Tools may treat files with the .pw.toml extension as metadata files even without \`metafile = true\`, ideally updating the index to ensure consistency.`,
 	examples: [
 		await Deno.readTextFile(
 			"./example-pack/mods/borderless-mining.pw.toml",
