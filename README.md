@@ -6,7 +6,7 @@ The packwiz CLI uses a custom format to store metadata about files contained in 
 
 - `pack.toml` stores metadata about the modpack itself, including Minecraft and mod loader versions
 - `index.toml` stores a list of files in the modpack, with hashes to determine when files have been changed
-- `external.pw.toml` references files to download from an external server, with optional and side-only filtering, including metadata to allow these links to be updated
+- `meta.pw.toml` references files to download from an external server, with optional and side-only filtering, including metadata to allow these links to be updated
 	- Any filename is allowed for these metadata files; `metafile = true` in the index indicates which files are external
 	- The extension `.pw.toml` is recommended to allow `metafile = true` to be automatically set by the CLI (and may be required in a future version of the format)
 
@@ -21,7 +21,7 @@ For development, these schemas are available from https://packwiz.infra.link/met
 "evenBetterToml.schema.associations": {
 	"pack\\.toml": "https://packwiz.infra.link/meta/format/v1/strict/pack.json",
 	"index\\.toml": "https://packwiz.infra.link/meta/format/v1/strict/index.json",
-	".*\\.pw\\.toml": "https://packwiz.infra.link/meta/format/v1/strict/mod.json",
+	".*\\.pw\\.toml": "https://packwiz.infra.link/meta/format/v1/strict/meta.json",
 },
 ```
 

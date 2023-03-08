@@ -1,6 +1,6 @@
 {
 	"type": "object",
-	"$id": "https://packwiz.infra.link/meta/format/v1/strict/mod.json",
+	"$id": "https://packwiz.infra.link/meta/format/v1/strict/pack.json",
 	"$schema": "http://json-schema.org/draft-07/schema",
 	"title": "pack.toml",
 	"description": "The main modpack file for a packwiz modpack. This is the first file loaded, to allow the modpack downloader to download all the files in the modpack.",
@@ -126,7 +126,7 @@
 			"required": [
 				"minecraft"
 			],
-			"description": "The versions of components used by this modpack - usually Minecraft and the mod loader this pack uses. The existence of a component implies that it should be installed. These values can also be used by tools to determine which versions of mods should be installed."
+			"description": "The versions of components used by this modpack - usually Minecraft and the mod loader this pack uses. The existence of a component implies that it should be installed. These values can also be used by tools to determine which versions of files should be installed."
 		}
 	},
 	"additionalProperties": false,
