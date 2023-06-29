@@ -50,6 +50,11 @@ export class Mod {
 	@property.default("both")
 	side: undefined;
 
+	@property.boolean(
+		"Boolean value if the version should be pinned."
+	)
+	pin: undefined;
+
 	@property.ref()
 	@property.required
 	download = new Download();

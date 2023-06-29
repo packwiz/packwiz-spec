@@ -39,6 +39,10 @@
 			"default": "both",
 			"type": "string"
 		},
+		"pin": {
+			"description": "Boolean value if the version should be pinned.",
+			"type": "boolean"
+		},
 		"download": {
 			"type": "object",
 			"description": "Information about how to download this mod.",
