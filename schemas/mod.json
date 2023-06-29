@@ -14,6 +14,13 @@
 			],
 			"type": "string"
 		},
+		"version": {
+			"description": "The version number of the mod.",
+			"examples": [
+				"1.1.5+1.19"
+			],
+			"type": "string"
+		},
 		"filename": {
 			"type": "string",
 			"description": "The destination path of the mod file, relative to this file.\n\nA relative path using forward slashes. Must not reference a file outside the pack root, and should not include characters or filenames restricted on common operating systems.\n\nImplementations must support special characters including those that are percent-encoded in URLs, such as spaces and square brackets. Implementations must guard against path traversal attacks and manually validate paths.",
@@ -162,6 +169,7 @@
 	},
 	"required": [
 		"name",
+		"version",
 		"filename",
 		"download"
 	]

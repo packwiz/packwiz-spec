@@ -18,7 +18,7 @@ export class Pack {
 	// TODO(gen): Regular expression to match valid values
 	// TODO(gen): Generate different versions of schemas for different uses?
 	@property.string(
-		`A version string identifying the pack format and version of it. Currently, this pack format uses version 1.1.0.
+		`A version string identifying the pack format and version of it. Currently, this pack format uses version 1.2.0.
 If it is not defined, default to \"packwiz:1.0.0\" for backwards-compatibility with packs created before this field was added.
 
 If it is defined:
@@ -29,7 +29,7 @@ If it is defined:
 - Pack tools should suggest and support migration when they support a version newer than this field`,
 	)
 	@property.required
-	@property.default("packwiz:1.1.0")
+	@property.default("packwiz:1.2.0")
 	"pack-format": undefined;
 
 	@property.string(

@@ -28,6 +28,13 @@ export class Mod {
 	@property.required
 	name: undefined;
 
+	@property.string(
+		"The version number of the mod."
+	)
+	@property.examples(["1.1.5+1.19"])
+	@property.required
+	version: undefined;
+
 	@property.ref(
 		"The destination path of the mod file, relative to this file.",
 	)
